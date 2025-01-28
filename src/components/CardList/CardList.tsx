@@ -3,6 +3,7 @@ import { getData } from '../../services/api';
 import { Book, ResponseBooks } from '../../types/types';
 import Card from '../Card/Card';
 import './CardList.css';
+import Loader from '../Button/Loader/Loader';
 
 type CardListState = {
   data: ResponseBooks;
@@ -51,21 +52,25 @@ export default class CardList extends Component<CardListProps, CardListState> {
       return <h1>{this.state.error}</h1>;
     }
     const data = this.state.data.results;
-    return (
+    return data.length !== 0 ? (
       <ul className="card-list">
-        {data.length !== 0
-          ? data.map((item: Book) => <Card key={item.id} value={item} />)
-          : 'Not found'}
+        {data.map((item: Book) => (
+          <Card key={item.id} value={item} />
+        ))}
       </ul>
+    ) : (
+      <span className="card-list__message">Not found</span>
     );
   };
 
   render() {
     return (
       <>
-        {this.state.loading && !this.state.error
-          ? 'Loading...'
-          : this.showResult()}
+        {this.state.loading && !this.state.error ? (
+          <Loader />
+        ) : (
+          this.showResult()
+        )}
       </>
     );
   }

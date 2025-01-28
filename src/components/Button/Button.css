@@ -16,3 +16,9 @@ button {
   button:focus-visible {
     outline: 4px auto -webkit-focus-ring-color;
   }
+
+  @media (prefers-color-scheme: light) {
+    button {
+      color: #f9f9f9;
+    }
+  }
