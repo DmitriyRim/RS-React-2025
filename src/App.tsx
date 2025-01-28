@@ -1,35 +1,65 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import { Component } from 'react';
 import './App.css';
+import Search from './components/Search/Search';
+import Button from './components/Button/Button';
+import CardList from './components/CardList/CardList';
 
-function App() {
-  const [count, setCount] = useState(0);
+type State = {
+  searchInput: string;
+  currentQuery: string;
+};
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+class App extends Component<null, State> {
+  constructor(props: null) {
+    super(props);
+    this.state = {
+      searchInput: this.initialState(),
+      currentQuery: this.initialState(),
+    };
+  }
+
+  handleChangeInput = (e: { target: { value: string } }) => {
+    const value = e.target.value;
+
+    localStorage.setItem('search', value);
+    this.setState((prevState) => {
+      return { ...prevState, searchInput: value };
+    });
+  };
+
+  handleSearch = () => {
+    this.setState((prevState) => {
+      return { ...prevState, currentQuery: prevState.searchInput.trim() };
+    });
+  };
+
+  initialState = (): string => {
+    let ls = localStorage.getItem('search');
+
+    if (!ls) {
+      ls = '';
+      localStorage.setItem('search', ls);
+    }
+
+    return ls;
+  };
+
+  render() {
+    return (
+      <>
+        <header>
+          <Search
+            value={this.state.searchInput}
+            onChange={this.handleChangeInput}
+          />
+          <Button value="Search" onClick={this.handleSearch} />
+        </header>
+        <main>
+          <CardList searchQuery={this.state.currentQuery} />
+        </main>
+      </>
+    );
+  }
 }
 
 export default App;
