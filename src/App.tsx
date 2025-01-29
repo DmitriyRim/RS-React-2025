@@ -12,8 +12,8 @@ type State = {
   currentQuery: string;
 };
 
-class App extends Component<null, State> {
-  constructor(props: null) {
+class App extends Component<unknown, State> {
+  constructor(props: unknown) {
     super(props);
     this.state = {
       searchInput: this.initialState(),

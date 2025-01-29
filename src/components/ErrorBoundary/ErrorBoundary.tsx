@@ -1,4 +1,4 @@
-import { Component, ReactNode } from 'react';
+import { Component, ErrorInfo, ReactNode } from 'react';
 
 type Props = {
   fallback: ReactNode;
@@ -19,9 +19,12 @@ export default class ErrorBoundary extends Component<Props, State> {
     return { hasError: true };
   }
 
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.log(error.name, info.componentStack);
+  }
+
   render(): ReactNode {
     if (this.state.hasError) {
-      // You can render any custom fallback UI
       return this.props.fallback;
     }
 
