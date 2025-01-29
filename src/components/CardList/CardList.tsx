@@ -3,7 +3,7 @@ import { getData } from '../../services/api';
 import { Book, ResponseBooks } from '../../types/types';
 import Card from '../Card/Card';
 import './CardList.css';
-import Loader from '../Button/Loader/Loader';
+import Loader from '../Loader/Loader';
 
 type CardListState = {
   data: ResponseBooks;

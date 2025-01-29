@@ -24,7 +24,11 @@ a:hover {
 
 body {
   margin: 0;
+}
+
+#root {
   display: flex;
+  flex-direction: column;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -36,14 +40,21 @@ header {
   grid-gap: 1em;
 }
 
+main {
+  padding-top: 2em;
+}
+
+footer {
+  margin-top: auto;
+  text-align: right;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
-main {
-  padding-top: 2em;
-}
+
 
 
 @media (prefers-color-scheme: light) {

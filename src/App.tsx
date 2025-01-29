@@ -3,6 +3,9 @@ import './App.css';
 import Search from './components/Search/Search';
 import Button from './components/Button/Button';
 import CardList from './components/CardList/CardList';
+import ErrorBoundary, {
+  ErrorButton,
+} from './components/ErrorBoundary/ErrorBoundary';
 
 type State = {
   searchInput: string;
@@ -46,7 +49,7 @@ class App extends Component<null, State> {
 
   render() {
     return (
-      <>
+      <ErrorBoundary fallback={<p>Something went wrong</p>}>
         <header>
           <Search
             value={this.state.searchInput}
@@ -57,7 +60,10 @@ class App extends Component<null, State> {
         <main>
           <CardList searchQuery={this.state.currentQuery} />
         </main>
-      </>
+        <footer>
+          <ErrorButton />
+        </footer>
+      </ErrorBoundary>
     );
   }
 }
