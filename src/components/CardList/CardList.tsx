@@ -1,77 +1,45 @@
-import { Component } from 'react';
-import { getData } from '../../services/api';
+import { useEffect, useState } from 'react';
+import { useLoaderData } from 'react-router-dom';
 import { Book, ResponseBooks } from '../../types/types';
 import Card from '../Card/Card';
-import './CardList.css';
 import Loader from '../Loader/Loader';
+import { getData } from '../../services/api';
+import './CardList.css';
 
-type CardListState = {
-  data: ResponseBooks;
-  loading: boolean;
-  error: null | string;
-};
+export default function CardList() {
+  const query = useLoaderData();
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState<ResponseBooks>();
+  const [error, setError] = useState<null | string>(null);
 
-type CardListProps = { searchQuery: string };
-
-export default class CardList extends Component<CardListProps, CardListState> {
-  state = {
-    data: {
-      count: 0,
-      next: null,
-      previous: null,
-      results: [],
-    },
-    loading: false,
-    error: null,
-  };
-
-  componentDidMount(): void {
-    this.setState({ loading: true });
-    this.getBooks();
-  }
-
-  componentDidUpdate(prevProps: Readonly<CardListProps>): void {
-    if (prevProps.searchQuery !== this.props.searchQuery) {
-      this.setState({ loading: true });
-      this.getBooks();
+  const showResult = () => {
+    if (error) {
+      return <h1>{error}</h1>;
     }
-  }
 
-  getBooks = async () => {
-    const data = await getData(this.props.searchQuery);
-
-    if (typeof data === 'string') {
-      this.setState({ error: data });
-    } else {
-      this.setState({ loading: false, data });
-    }
-  };
-
-  showResult = () => {
-    if (this.state.error) {
-      return <h1>{this.state.error}</h1>;
-    }
-    const data = this.state.data.results;
-    return data.length !== 0 ? (
+    return data?.results.length !== 0 ? (
       <ul className="card-list">
-        {data.map((item: Book) => (
-          <Card key={item.id} value={item} />
-        ))}
+        {data?.results.map((item: Book) => <Card key={item.id} value={item} />)}
       </ul>
     ) : (
       <span className="card-list__message">Not found</span>
     );
   };
 
-  render() {
-    return (
-      <>
-        {this.state.loading && !this.state.error ? (
-          <Loader />
-        ) : (
-          this.showResult()
-        )}
-      </>
-    );
-  }
+  useEffect(() => {
+    setLoading(true);
+    const getBooks = async () => {
+      const data = await getData(query.search);
+
+      if (typeof data === 'string') {
+        setError(data);
+      } else {
+        setData(data);
+      }
+      setLoading(false);
+    };
+    getBooks();
+  }, [query]);
+
+  return <>{loading && !error ? <Loader /> : showResult()}</>;
 }

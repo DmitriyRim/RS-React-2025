@@ -4,11 +4,13 @@ import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import App from './App.tsx';
+import { rootLoader } from './services/api.ts';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    loader: rootLoader,
     children: [
       {
         path: '/:id',

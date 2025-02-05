@@ -53,7 +53,7 @@ class App extends Component<unknown, State> {
           <Search />
         </header>
         <main>
-          <CardList searchQuery={this.state.currentQuery} />
+          <CardList />
         </main>
         <footer>
           <ErrorButton />
