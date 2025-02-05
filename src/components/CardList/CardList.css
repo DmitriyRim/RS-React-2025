@@ -6,8 +6,17 @@
   justify-content: stretch;
   padding-left: 0;
   list-style: none;
-}
 
+}
+.card-list, 
+.card-list__message {
+  flex: 1 60%;
+}
 .card-list__message {
   font-size: 2em;
+}
+.main {
+  text-align: center;
+  width: 100%;
+  min-width: 60%;
 }

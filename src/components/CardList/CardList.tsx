@@ -22,7 +22,7 @@ export default function CardList() {
         {data?.results.map((item: Book) => <Card key={item.id} value={item} />)}
       </ul>
     ) : (
-      <span className="card-list__message">Not found</span>
+      <p className="card-list__message">Not found</p>
     );
   };
 
@@ -33,7 +33,7 @@ export default function CardList() {
 
       if (typeof data === 'string') {
         setError(data);
-      } else {
+      } else if ('results' in data) {
         setData(data);
       }
       setLoading(false);
@@ -41,5 +41,7 @@ export default function CardList() {
     getBooks();
   }, [query]);
 
-  return <>{loading && !error ? <Loader /> : showResult()}</>;
+  return (
+    <div className="main">{loading && !error ? <Loader /> : showResult()}</div>
+  );
 }

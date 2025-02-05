@@ -1,10 +1,11 @@
-import { ResponseBooks } from '../types/types';
+import { Book, ResponseBooks } from '../types/types';
+import { LoaderFunctionArgs } from 'react-router-dom';
 
 const BASE_URL = 'https://gutendex.com/books/';
 
 export async function getData(
   search: string = ''
-): Promise<ResponseBooks | string> {
+): Promise<ResponseBooks | Book | string> {
   try {
     const response = await fetch(BASE_URL + search);
 
@@ -18,8 +19,14 @@ export async function getData(
   }
 }
 
-export async function rootLoader({ request }: { request: Request }) {
+export async function rootLoader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
 
   return { search: url.search };
+}
+
+export async function detailsLoader({ params }: LoaderFunctionArgs) {
+  const { id } = params;
+
+  return id;
 }

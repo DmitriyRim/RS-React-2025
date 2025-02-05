@@ -1,10 +1,13 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import './index.css';
+
 import App from './App.tsx';
-import { rootLoader } from './services/api.ts';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.tsx';
+import DetailsCard from './components/DetailsCard/DetailsCard.tsx';
+
+import { detailsLoader, rootLoader } from './services/api.ts';
+import './index.css';
 
 const router = createBrowserRouter([
   {
@@ -14,7 +17,8 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/:id',
-        element: 'DetailsCard',
+        element: <DetailsCard />,
+        loader: detailsLoader,
       },
     ],
   },
