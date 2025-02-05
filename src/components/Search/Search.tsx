@@ -1,21 +1,28 @@
-import { Component, ReactNode } from 'react';
 import './Search.css';
+import { Form } from 'react-router-dom';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
-type Props = {
-  value: string | number;
-  onChange: (e: { target: { value: string } }) => void;
-};
+export default function Search() {
+  const query = useLocalStorage();
 
-export default class Search extends Component<Props> {
-  render(): ReactNode {
-    return (
+  return (
+    <Form>
       <input
-        className="search"
-        type="text"
+        type="search"
+        name="search"
         placeholder="Search..."
-        onChange={this.props.onChange}
-        value={this.props.value}
+        defaultValue={query}
       />
-    );
-  }
+      <button
+        type="submit"
+        onClick={(event) => {
+          const value = event.currentTarget.form?.search.value;
+
+          localStorage.setItem('searchQuery', value);
+        }}
+      >
+        Search
+      </button>
+    </Form>
+  );
 }

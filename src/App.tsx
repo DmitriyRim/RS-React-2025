@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import './App.css';
 import Search from './components/Search/Search';
-import Button from './components/Button/Button';
 import CardList from './components/CardList/CardList';
 import ErrorBoundary, {
   ErrorButton,
@@ -51,11 +50,7 @@ class App extends Component<unknown, State> {
     return (
       <ErrorBoundary fallback={<p>Something went wrong</p>}>
         <header>
-          <Search
-            value={this.state.searchInput}
-            onChange={this.handleChangeInput}
-          />
-          <Button value="Search" onClick={this.handleSearch} />
+          <Search />
         </header>
         <main>
           <CardList searchQuery={this.state.currentQuery} />
