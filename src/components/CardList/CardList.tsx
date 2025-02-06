@@ -5,6 +5,7 @@ import Card from '../Card/Card';
 import Loader from '../Loader/Loader';
 import { getData } from '../../services/api';
 import './CardList.css';
+import Pagination from '../Pagination/Pagination';
 
 export default function CardList() {
   const query = useLoaderData();
@@ -17,19 +18,29 @@ export default function CardList() {
       return <h1>{error}</h1>;
     }
 
-    return data?.results.length !== 0 ? (
-      <ul className="card-list">
-        {data?.results.map((item: Book) => <Card key={item.id} value={item} />)}
-      </ul>
-    ) : (
-      <p className="card-list__message">Not found</p>
-    );
+    if (data && 'results' in data) {
+      const { count, results } = data;
+      const totalPages = Math.ceil(count / 32);
+
+      return results.length !== 0 ? (
+        <>
+          <ul className="card-list">
+            {results.map((item: Book) => (
+              <Card key={item.id} value={item} />
+            ))}
+          </ul>
+          <Pagination totalPages={totalPages} />
+        </>
+      ) : (
+        <p className="card-list__message">Not found</p>
+      );
+    }
   };
 
   useEffect(() => {
     setLoading(true);
     const getBooks = async () => {
-      const data = await getData(query.search);
+      const data = await getData(query.url.search);
 
       if (typeof data === 'string') {
         setError(data);

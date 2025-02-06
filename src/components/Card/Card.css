@@ -11,6 +11,10 @@
   overflow: hidden;
 }
 
+.card-image{ 
+  max-width: 15em;
+}
+
 .card-description {
   font-size: 0.9rem;
   padding: 0 0.5em;

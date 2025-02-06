@@ -22,7 +22,7 @@ export async function getData(
 export async function rootLoader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
 
-  return { search: url.search };
+  return { url };
 }
 
 export async function detailsLoader({ params }: LoaderFunctionArgs) {
