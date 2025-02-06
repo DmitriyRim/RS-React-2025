@@ -8,12 +8,14 @@ import DetailsCard from './components/DetailsCard/DetailsCard.tsx';
 
 import { detailsLoader, rootLoader } from './services/api.ts';
 import './index.css';
+import ErrorPage from './components/ErrorPage/ErrorPage.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     loader: rootLoader,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '/:id',
@@ -21,6 +23,10 @@ const router = createBrowserRouter([
         loader: detailsLoader,
       },
     ],
+  },
+  {
+    path: '/:id/*',
+    element: <ErrorPage />,
   },
 ]);
 

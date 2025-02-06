@@ -46,7 +46,7 @@ export default function DetailsCard() {
     <div className="details">
       {loading ? (
         <Loader />
-      ) : (
+      ) : details?.id ? (
         <>
           <button className="close" onClick={rootPage}>
             X
@@ -75,6 +75,8 @@ export default function DetailsCard() {
           {getLists('Languages', details?.languages)}
           <p>Download count: {details?.download_count}</p>
         </>
+      ) : (
+        <span>Not found</span>
       )}
     </div>
   );
