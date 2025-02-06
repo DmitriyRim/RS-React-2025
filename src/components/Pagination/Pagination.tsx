@@ -2,7 +2,7 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 
 export default function Pagination({ totalPages }: { totalPages: number }) {
   const navigate = useNavigate();
-  const { url } = useLoaderData();
+  const url = useLoaderData();
   const pageNumber = url.searchParams.get('page');
   const currentPage = pageNumber ? +pageNumber : 1;
   const minPageNumber = 5;

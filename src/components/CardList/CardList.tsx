@@ -6,12 +6,14 @@ import Loader from '../Loader/Loader';
 import { getData } from '../../services/api';
 import './CardList.css';
 import Pagination from '../Pagination/Pagination';
+import useRootPage from '../../hooks/useRootPage';
 
 export default function CardList() {
-  const query = useLoaderData();
+  const { search } = useLoaderData();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<ResponseBooks>();
   const [error, setError] = useState<null | string>(null);
+  const rootPage = useRootPage();
 
   const showResult = () => {
     if (error) {
@@ -40,7 +42,7 @@ export default function CardList() {
   useEffect(() => {
     setLoading(true);
     const getBooks = async () => {
-      const data = await getData(query.url.search);
+      const data = await getData(search);
 
       if (typeof data === 'string') {
         setError(data);
@@ -50,9 +52,11 @@ export default function CardList() {
       setLoading(false);
     };
     getBooks();
-  }, [query]);
+  }, [search]);
 
   return (
-    <div className="main">{loading && !error ? <Loader /> : showResult()}</div>
+    <div className="main" onClick={rootPage}>
+      {loading && !error ? <Loader /> : showResult()}
+    </div>
   );
 }
