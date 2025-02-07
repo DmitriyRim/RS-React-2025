@@ -5,11 +5,25 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
   const url = useLoaderData();
   const pageNumber = url.searchParams.get('page');
   const currentPage = pageNumber ? +pageNumber : 1;
-  const minPageNumber = 5;
+  const maxPageNumbers = 5;
 
   const goToPage = (pageNumber: number) => {
     url.searchParams.set('page', `${pageNumber}`);
     navigate(url.search);
+  };
+  const getPageNumbers = () => {
+    if (totalPages <= maxPageNumbers) {
+      return [...Array(totalPages).keys()].map((num) => num + 1);
+    }
+
+    let start = Math.max(1, currentPage - Math.floor(maxPageNumbers / 2));
+    const end = Math.min(totalPages, start + maxPageNumbers - 1);
+
+    if (end === totalPages) {
+      start = totalPages - maxPageNumbers + 1;
+    }
+
+    return [...Array(end - start + 1).keys()].map((num) => num + start);
   };
 
   return (
@@ -23,20 +37,15 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
           Prev
         </button>
 
-        {[...Array(totalPages).keys()]
-          .slice(
-            currentPage < minPageNumber ? 0 : currentPage,
-            currentPage + minPageNumber
-          )
-          .map((num) => (
-            <button
-              key={num}
-              disabled={num + 1 === currentPage}
-              onClick={() => goToPage(num + 1)}
-            >
-              {num + 1}
-            </button>
-          ))}
+        {getPageNumbers().map((pageNumber) => (
+          <button
+            key={pageNumber}
+            disabled={currentPage === pageNumber}
+            onClick={() => goToPage(pageNumber)}
+          >
+            {pageNumber}
+          </button>
+        ))}
 
         <button
           disabled={totalPages === currentPage}
