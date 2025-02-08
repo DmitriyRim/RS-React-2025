@@ -1,19 +1,19 @@
 .details {
-    position: relative;
-    padding: 1em .5em;
-    flex: 1 0 40%;
-    border-top-right-radius: .5em;
-    border-bottom-right-radius: .5em;
-    font-size: .9rem;
+  position: relative;
+  padding: 1em 0.5em;
+  flex: 1 0 40%;
+  border-top-right-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+  font-size: 0.9rem;
 }
-.details > ul, 
+.details > ul,
 .details > h3,
-.details > p{
-    text-align-last: left;
+.details > p {
+  text-align-last: left;
 }
 .details .close {
-    position: absolute;
-    right: 0.5em;
-    top: 0.5em;
-    cursor: pointer;
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
+  cursor: pointer;
 }
