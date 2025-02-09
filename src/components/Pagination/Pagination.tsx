@@ -1,15 +1,17 @@
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useSearchParams } from 'react-router-dom';
 
 export default function Pagination({ totalPages }: { totalPages: number }) {
-  const navigate = useNavigate();
   const url = useLoaderData();
-  const pageNumber = url.searchParams.get('page');
+  const [searchParams, setSearchParams] = useSearchParams(url.search);
+  const pageNumber = searchParams.get('page');
   const currentPage = pageNumber ? +pageNumber : 1;
   const maxPageNumbers = 5;
 
   const goToPage = (pageNumber: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', `${pageNumber}`);
     url.searchParams.set('page', `${pageNumber}`);
-    navigate(url.search);
+    setSearchParams(params);
   };
   const getPageNumbers = () => {
     if (totalPages <= maxPageNumbers) {
