@@ -30,7 +30,7 @@ describe('Tests for the Detailed Card component', () => {
 
   it('Check that a loading indicator is displayed while fetching data', async () => {
     vi.mocked(getData).mockImplementation(
-      () => new Promise((resolve) => setTimeout(() => resolve(''), 100)) // Эмулируем задержку запроса
+      () => new Promise((resolve) => setTimeout(() => resolve(''), 100))
     );
     (getData as Mock).mockResolvedValue({});
     render(<Stub initialEntries={['/123']} />);
