@@ -9,6 +9,8 @@ import DetailsCard from './components/DetailsCard/DetailsCard.tsx';
 import { detailsLoader, rootLoader } from './services/api.ts';
 import './index.css';
 import ErrorPage from './components/ErrorPage/ErrorPage.tsx';
+import { Provider } from 'react-redux';
+import { store } from './app/store.ts';
 
 const router = createBrowserRouter([
   {
@@ -32,8 +34,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root') as Element).render(
   <StrictMode>
-    <ErrorBoundary fallback={<p>Something went wrong</p>}>
-      <RouterProvider router={router} />
-    </ErrorBoundary>
+    <Provider store={store}>
+      <ErrorBoundary fallback={<p>Something went wrong</p>}>
+        <RouterProvider router={router} />
+      </ErrorBoundary>
+    </Provider>
   </StrictMode>
 );
