@@ -3,15 +3,6 @@ import { MemoryRouter } from 'react-router-dom';
 import Card from '../../components/Card/Card';
 import { Book } from '../../types/types';
 
-vi.mock('react-router-dom', async () => {
-  const mod = await vi.importActual('react-router-dom');
-  return {
-    ...mod,
-    useLoaderData: () => {
-      return { search: '?query=test' };
-    },
-  };
-});
 const fakeFetch = vi.fn();
 vi.stubGlobal('fetch', fakeFetch);
 
@@ -43,6 +34,6 @@ describe('Tests for the Card component', () => {
     );
 
     const link = screen.getByRole('link');
-    expect(link).toHaveAttribute('href', '/1?query=test');
+    expect(link).toHaveAttribute('href', '/1');
   });
 });

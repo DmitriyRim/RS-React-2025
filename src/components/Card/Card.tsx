@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Book } from '../../types/types';
 import './Card.css';
 
@@ -7,10 +7,10 @@ type Props = {
 };
 
 export default function Card({ value }: Props) {
-  const url = useLoaderData();
+  const location = useLocation();
 
   return (
-    <Link to={`${value.id}${url.search}`}>
+    <Link to={`${value.id}${location.search}`}>
       <li className="card">
         <h3 className="card-title">{value.title}</h3>
         {'image/jpeg' in value.formats &&

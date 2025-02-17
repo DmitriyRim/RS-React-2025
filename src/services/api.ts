@@ -21,7 +21,10 @@ export async function getData(
 
 export async function rootLoader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
-  return url;
+  return {
+    page: url.searchParams.get('page'),
+    search: url.searchParams.get('search'),
+  };
 }
 
 export async function detailsLoader({ params }: LoaderFunctionArgs) {

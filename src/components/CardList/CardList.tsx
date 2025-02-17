@@ -1,23 +1,30 @@
-import { useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
-import { Book, ResponseBooks } from '../../types/types';
+import { Book } from '../../types/types';
 import Card from '../Card/Card';
 import Loader from '../Loader/Loader';
-import { getData } from '../../services/api';
 import './CardList.css';
 import Pagination from '../Pagination/Pagination';
 import useRootPage from '../../hooks/useRootPage';
+import { useGetDataQuery } from '../../api/apiSlice';
 
 export default function CardList() {
-  const { search } = useLoaderData();
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<ResponseBooks>();
-  const [error, setError] = useState<null | string>(null);
+  const params = useLoaderData<{
+    page: string | null;
+    search: string | null;
+  }>();
+  const { data, isFetching, error } = useGetDataQuery(params);
   const rootPage = useRootPage();
 
   const showResult = () => {
+    let errorMessage: string = '';
     if (error) {
-      return <h1>{error}</h1>;
+      if ('status' in error) {
+        errorMessage =
+          'error' in error ? error.error : JSON.stringify(error.data);
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      return <h1>{errorMessage}</h1>;
     }
 
     if (data && 'results' in data) {
@@ -39,24 +46,9 @@ export default function CardList() {
     }
   };
 
-  useEffect(() => {
-    setLoading(true);
-    const getBooks = async () => {
-      const data = await getData(search);
-
-      if (typeof data === 'string') {
-        setError(data);
-      } else if ('results' in data) {
-        setData(data);
-      }
-      setLoading(false);
-    };
-    getBooks();
-  }, [search]);
-
   return (
     <div className="main" onClick={rootPage}>
-      {loading && !error ? <Loader /> : showResult()}
+      {isFetching && !error ? <Loader /> : showResult()}
     </div>
   );
 }
