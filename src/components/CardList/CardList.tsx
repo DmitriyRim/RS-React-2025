@@ -47,7 +47,18 @@ export default function CardList() {
   };
 
   return (
-    <div className="main" onClick={rootPage}>
+    <div
+      className="main"
+      onClick={(e) => {
+        if (
+          e.target instanceof HTMLInputElement ||
+          e.target instanceof HTMLLabelElement
+        ) {
+          return;
+        }
+        rootPage();
+      }}
+    >
       {isFetching && !error ? <Loader /> : showResult()}
     </div>
   );

@@ -2,7 +2,14 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Card from '../../components/Card/Card';
 import { Book } from '../../types/types';
-
+vi.mock('../../app/hooks', async () => {
+  const actual = await vi.importActual('../../app/hooks');
+  return {
+    ...actual,
+    useAppSelector: vi.fn().mockReturnValue([]),
+    useAppDispatch: vi.fn(),
+  };
+});
 const fakeFetch = vi.fn();
 vi.stubGlobal('fetch', fakeFetch);
 

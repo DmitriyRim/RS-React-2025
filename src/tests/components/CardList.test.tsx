@@ -12,6 +12,15 @@ vi.mock('../../api/apiSlice', async () => {
   };
 });
 
+vi.mock('../../app/hooks', async () => {
+  const actual = await vi.importActual('../../app/hooks');
+  return {
+    ...actual,
+    useAppSelector: vi.fn().mockReturnValue([]),
+    useAppDispatch: vi.fn(),
+  };
+});
+
 describe('Tests for the Card List component', () => {
   const Stub = createRoutesStub([
     {

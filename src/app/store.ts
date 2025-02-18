@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { apiSlice } from '../api/apiSlice';
+import checkedDataReducer from '../api/checkedSlice';
 
 export const store = configureStore({
   reducer: {
+    checkedData: checkedDataReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
