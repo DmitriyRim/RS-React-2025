@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ResponseBooks } from '../types/types';
+import { Book, ResponseBooks } from '../types/types';
 
 const BASE_URL = 'https://gutendex.com/books/';
 
@@ -19,7 +19,10 @@ export const apiSlice = createApi({
         return '/?' + params.toString();
       },
     }),
+    getDataById: builder.query<Book, string>({
+      query: (id) => `/${id}`,
+    }),
   }),
 });
 
-export const { useGetDataQuery } = apiSlice;
+export const { useGetDataQuery, useGetDataByIdQuery } = apiSlice;

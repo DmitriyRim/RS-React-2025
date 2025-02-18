@@ -1,29 +1,13 @@
-import { useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
-import { getData } from '../../services/api';
-import { Book } from '../../types/types';
 import './DetailsCard.css';
 import useRootPage from '../../hooks/useRootPage';
 import Loader from '../Loader/Loader';
+import { useGetDataByIdQuery } from '../../api/apiSlice';
 
 export default function DetailsCard() {
   const id = useLoaderData();
-  const [details, setDetails] = useState<Book>();
-  const [loading, setLoading] = useState(false);
   const rootPage = useRootPage();
-
-  useEffect(() => {
-    async function getDetails() {
-      const data = await getData(id);
-      if (typeof data !== 'string' && 'id' in data) {
-        setDetails(data);
-      }
-      setLoading(false);
-    }
-
-    setLoading(true);
-    getDetails();
-  }, [id]);
+  const { data, isFetching } = useGetDataByIdQuery(id);
 
   function getLists(title: string, arr: string[] | undefined) {
     if (!arr) {
@@ -44,36 +28,36 @@ export default function DetailsCard() {
 
   return (
     <div className="details">
-      {loading ? (
+      {isFetching ? (
         <Loader />
-      ) : details?.id ? (
+      ) : data?.id ? (
         <>
           <button className="close" onClick={rootPage}>
             X
           </button>
-          <h2>{details?.title}</h2>
+          <h2>{data?.title}</h2>
           <div>
-            {details &&
-            'image/jpeg' in details.formats &&
-            typeof details.formats['image/jpeg'] === 'string' ? (
+            {data &&
+            'image/jpeg' in data.formats &&
+            typeof data.formats['image/jpeg'] === 'string' ? (
               <img
-                src={details.formats['image/jpeg']}
+                src={data.formats['image/jpeg']}
                 alt=""
                 style={{ float: 'left' }}
               />
             ) : null}
-            {getLists('Summary', details?.summaries)}
+            {getLists('Summary', data?.summaries)}
           </div>
           <h3>Authors: </h3>
           <ul>
-            {details?.authors.map((author) => (
+            {data?.authors.map((author) => (
               <li key={author.name}>{author.name}</li>
             ))}
           </ul>
-          {getLists('Subjects', details?.subjects)}
-          {getLists('Bookshelves', details?.bookshelves)}
-          {getLists('Languages', details?.languages)}
-          <p>Download count: {details?.download_count}</p>
+          {getLists('Subjects', data?.subjects)}
+          {getLists('Bookshelves', data?.bookshelves)}
+          {getLists('Languages', data?.languages)}
+          <p>Download count: {data?.download_count}</p>
         </>
       ) : (
         <span>Not found</span>
