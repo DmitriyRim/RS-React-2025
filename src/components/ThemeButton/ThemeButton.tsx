@@ -1,21 +1,14 @@
+import { useContext } from 'react';
+import { ThemeContext } from '../../app/themeContext';
 import './ThemeButton.css';
 
-interface Props {
-  theme: string;
-  handleSwitchTheme: (theme: string) => void;
-}
+export const ThemeButton = () => {
+  const { theme, setTheme } = useContext(ThemeContext);
 
-export const ThemeButton = ({ theme, handleSwitchTheme }: Props) => {
   return (
     <div className="toggle-switch">
       <label>
-        <input
-          type="checkbox"
-          checked={theme === 'dark'}
-          onChange={() =>
-            handleSwitchTheme(theme === 'dark' ? 'light' : 'dark')
-          }
-        />
+        <input type="checkbox" checked={theme === 'dark'} onChange={setTheme} />
         <span className="slider"></span>
       </label>
     </div>

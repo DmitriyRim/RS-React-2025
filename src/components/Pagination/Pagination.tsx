@@ -34,6 +34,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
       <p>Current page: {currentPage}</p>
       <div className="pagination">
         <button
+          className="button"
           onClick={() => goToPage(currentPage - 1)}
           disabled={currentPage === 1}
         >
@@ -42,6 +43,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
 
         {getPageNumbers().map((pageNumber) => (
           <button
+            className="button"
             key={pageNumber}
             disabled={currentPage === pageNumber}
             onClick={() => goToPage(pageNumber)}
@@ -51,6 +53,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
         ))}
 
         <button
+          className="button"
           disabled={totalPages === currentPage}
           onClick={() => goToPage(currentPage + 1)}
         >

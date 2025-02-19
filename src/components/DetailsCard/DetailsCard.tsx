@@ -3,11 +3,14 @@ import './DetailsCard.css';
 import useRootPage from '../../hooks/useRootPage';
 import Loader from '../Loader/Loader';
 import { useGetDataByIdQuery } from '../../api/apiSlice';
+import { useContext } from 'react';
+import { ThemeContext } from '../../app/themeContext';
 
 export default function DetailsCard() {
   const id = useLoaderData();
   const rootPage = useRootPage();
   const { data, isFetching } = useGetDataByIdQuery(id);
+  const { theme } = useContext(ThemeContext);
 
   function getLists(title: string, arr: string[] | undefined) {
     if (!arr) {
@@ -27,12 +30,12 @@ export default function DetailsCard() {
   }
 
   return (
-    <div className="details">
+    <div className={`details theme-${theme}`}>
       {isFetching ? (
         <Loader />
       ) : data?.id ? (
         <>
-          <button className="close" onClick={rootPage}>
+          <button className="close button" onClick={rootPage}>
             X
           </button>
           <h2>{data?.title}</h2>

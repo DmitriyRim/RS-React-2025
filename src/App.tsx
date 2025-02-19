@@ -4,20 +4,19 @@ import CardList from './components/CardList/CardList';
 import { ErrorButton } from './components/ErrorBoundary/ErrorBoundary';
 import { Outlet } from 'react-router-dom';
 import { Popup } from './components/Popup/Popup';
-import { useState } from 'react';
 import { ThemeButton } from './components/ThemeButton/ThemeButton';
-import { ThemeContext } from './app/themeContext';
+import { ThemeContext, useThemeContext } from './app/themeContext';
 
 export default function App() {
-  const [theme, setTheme] = useState('dark');
+  const { theme, handleSwitchTheme } = useThemeContext();
 
   return (
-    <ThemeContext.Provider value={theme}>
-      <div className={`background theme-${theme}`}>
+    <ThemeContext.Provider value={{ theme, setTheme: handleSwitchTheme }}>
+      <div className={`background-${theme}`}>
         <div className="container">
           <header>
             <Search />
-            <ThemeButton theme={theme} handleSwitchTheme={setTheme} />
+            <ThemeButton />
           </header>
           <main>
             <CardList />

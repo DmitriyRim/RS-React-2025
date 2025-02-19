@@ -16,7 +16,7 @@ export default function CardList() {
   }>();
   const { data, isFetching, error } = useGetDataQuery(params);
   const rootPage = useRootPage();
-  const theme = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
 
   const showResult = () => {
     let errorMessage: string = '';

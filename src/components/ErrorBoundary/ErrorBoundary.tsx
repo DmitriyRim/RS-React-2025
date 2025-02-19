@@ -41,7 +41,7 @@ export class ErrorButton extends Component {
       throw Error;
     }
     return (
-      <button onClick={() => this.setState({ error: true })}>
+      <button className="button" onClick={() => this.setState({ error: true })}>
         Error Button
       </button>
     );
