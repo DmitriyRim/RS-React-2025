@@ -36,10 +36,18 @@ export const Popup = () => {
   return (
     <div className="popup">
       <p>{checkedData.length} items are selected</p>
-      <button onClick={() => dispatch(removeAll())}>Unselect all</button>
-      <a href={createBlobUrl()} download={`${checkedData.length}_books.csv`}>
-        Download
-      </a>
+      <div className="popup-buttons">
+        <button className="button" onClick={() => dispatch(removeAll())}>
+          Unselect all
+        </button>
+        <a
+          className="button"
+          href={createBlobUrl()}
+          download={`${checkedData.length}_books.csv`}
+        >
+          Download
+        </a>
+      </div>
     </div>
   );
 };
