@@ -1,0 +1,8 @@
+.popup {
+    background-color: red;
+    padding: .5em 1em;
+    border-radius: .5em;
+    position: fixed;
+    right: 1em;
+    bottom: 4em;
+}

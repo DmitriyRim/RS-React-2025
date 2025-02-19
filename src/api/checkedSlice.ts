@@ -15,15 +15,20 @@ export const checkedSlice = createSlice({
   initialState,
   reducers: {
     addCard: (state, action: PayloadAction<Book>) => {
-      state.value.push(action.payload);
+      if (!state.value.find((book) => book.id === action.payload.id)) {
+        state.value.push(action.payload);
+      }
     },
     removeCard: (state, action: PayloadAction<number>) => {
       state.value = state.value.filter((book) => book.id !== action.payload);
     },
+    removeAll: (state) => {
+      state.value = [];
+    },
   },
 });
 
-export const { addCard, removeCard } = checkedSlice.actions;
+export const { addCard, removeCard, removeAll } = checkedSlice.actions;
 
 export const selectCheckedCard = (state: RootState) => state.checkedData.value;
 
