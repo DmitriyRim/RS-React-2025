@@ -18,7 +18,6 @@ describe('Tests for the Pagination component', () => {
     fireEvent.click(screen.getByRole('button', { name: /next/i }));
     await waitFor(() => {
       expect(screen.getByText(/Current page: 2/i)).toBeInTheDocument();
-      screen.debug();
     });
   });
 });

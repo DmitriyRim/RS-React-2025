@@ -6,6 +6,8 @@ import './CardList.css';
 import Pagination from '../Pagination/Pagination';
 import useRootPage from '../../hooks/useRootPage';
 import { useGetDataQuery } from '../../api/apiSlice';
+import { useContext } from 'react';
+import { ThemeContext } from '../../app/themeContext';
 
 export default function CardList() {
   const params = useLoaderData<{
@@ -14,6 +16,7 @@ export default function CardList() {
   }>();
   const { data, isFetching, error } = useGetDataQuery(params);
   const rootPage = useRootPage();
+  const theme = useContext(ThemeContext);
 
   const showResult = () => {
     let errorMessage: string = '';
@@ -48,7 +51,7 @@ export default function CardList() {
 
   return (
     <div
-      className="main"
+      className={`main theme-${theme}`}
       onClick={(e) => {
         if (
           e.target instanceof HTMLInputElement ||

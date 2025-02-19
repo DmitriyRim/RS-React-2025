@@ -56,7 +56,6 @@ describe('Tests for the Card List component', () => {
       error: null,
     });
     render(<Stub initialEntries={['/']} />);
-    screen.debug();
     await waitFor(() => {
       expect(screen.getAllByText(/test/i).length).toBe(2);
     });
