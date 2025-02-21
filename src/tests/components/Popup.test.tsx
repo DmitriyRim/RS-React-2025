@@ -2,8 +2,6 @@ import { render, screen } from '@testing-library/react';
 import { Popup } from '../../components/Popup/Popup';
 import { useAppSelector } from '../../app/hooks';
 import { Mock } from 'vitest';
-import { convertToCsv, createBlobUrl } from '../../utils/utils';
-import { Book } from '../../types/types';
 
 vi.mock('../../app/hooks', async () => {
   const actual = await vi.importActual('../../app/hooks');
