@@ -1,6 +1,5 @@
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import './DetailsCard.css';
-import useRootPage from '../../hooks/useRootPage';
 import Loader from '../Loader/Loader';
 import { useGetDataByIdQuery } from '../../api/apiSlice';
 import { useContext } from 'react';
@@ -8,7 +7,7 @@ import { ThemeContext } from '../../app/themeContext';
 
 export default function DetailsCard() {
   const id = useLoaderData();
-  const rootPage = useRootPage();
+  const navigate = useNavigate();
   const { data, isFetching } = useGetDataByIdQuery(id);
   const { theme } = useContext(ThemeContext);
 
@@ -35,7 +34,10 @@ export default function DetailsCard() {
         <Loader />
       ) : data?.id ? (
         <>
-          <button className="close button" onClick={rootPage}>
+          <button
+            className="close button"
+            onClick={() => navigate('/' + location.search)}
+          >
             X
           </button>
           <h2>{data?.title}</h2>

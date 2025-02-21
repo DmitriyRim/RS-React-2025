@@ -20,7 +20,10 @@
   min-width: 60%;
 }
 .pagination {
-  display: flex;
   gap: 0.5em;
   justify-content: center;
+}
+
+.theme-dark {
+  color: var(--light);
 }

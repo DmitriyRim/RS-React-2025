@@ -83,3 +83,7 @@ h1 {
   color: var(--light);
   border: 1px solid var(--dark);
 }
+
+.theme-dark .loader {
+  color: var(--light);
+}

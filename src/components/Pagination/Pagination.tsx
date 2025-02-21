@@ -30,9 +30,9 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
   };
 
   return (
-    <div>
+    <div className="pagination">
       <p>Current page: {currentPage}</p>
-      <div className="pagination">
+      <div>
         <button
           className="button"
           onClick={() => goToPage(currentPage - 1)}

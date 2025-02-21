@@ -1,10 +1,10 @@
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Book } from '../../types/types';
 import Card from '../Card/Card';
 import Loader from '../Loader/Loader';
 import './CardList.css';
 import Pagination from '../Pagination/Pagination';
-import useRootPage from '../../hooks/useRootPage';
+
 import { useGetDataQuery } from '../../api/apiSlice';
 import { useContext } from 'react';
 import { ThemeContext } from '../../app/themeContext';
@@ -15,7 +15,7 @@ export default function CardList() {
     search: string | null;
   }>();
   const { data, isFetching, error } = useGetDataQuery(params);
-  const rootPage = useRootPage();
+  const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
 
   const showResult = () => {
@@ -55,11 +55,13 @@ export default function CardList() {
       onClick={(e) => {
         if (
           e.target instanceof HTMLInputElement ||
-          e.target instanceof HTMLLabelElement
+          e.target instanceof HTMLLabelElement ||
+          e.target instanceof HTMLButtonElement ||
+          location.pathname === '/'
         ) {
           return;
         }
-        rootPage();
+        navigate('/' + location.search);
       }}
     >
       {isFetching && !error ? <Loader /> : showResult()}
