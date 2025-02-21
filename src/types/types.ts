@@ -27,5 +27,5 @@ export type Person = {
 };
 
 export type Format = {
-  (key: string): string;
+  [key: string]: string;
 };

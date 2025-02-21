@@ -1,6 +1,6 @@
 import { removeAll, selectCheckedCard } from '../../api/checkedSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { Book } from '../../types/types';
+import { createBlobUrl } from '../../utils/utils';
 import './Popup.css';
 
 export const Popup = () => {
@@ -11,28 +11,6 @@ export const Popup = () => {
     return null;
   }
 
-  const convertToCsv = (data: Book[]) => {
-    const rows = data
-      .map((item: Book) => {
-        return Object.entries(item)
-          .map((fields) => {
-            const [key, value] = fields;
-            return `${key}: ${JSON.stringify(value)}`;
-          })
-          .join(';');
-      })
-      .join('\n');
-    return rows;
-  };
-
-  const createBlobUrl = () => {
-    return window.URL.createObjectURL(
-      new Blob([convertToCsv(checkedData)], {
-        type: 'text/csv;charset=utf-8;',
-      })
-    );
-  };
-
   return (
     <div className="popup">
       <p>{checkedData.length} items are selected</p>
@@ -42,7 +20,7 @@ export const Popup = () => {
         </button>
         <a
           className="button"
-          href={createBlobUrl()}
+          href={createBlobUrl(checkedData)}
           download={`${checkedData.length}_books.csv`}
         >
           Download
