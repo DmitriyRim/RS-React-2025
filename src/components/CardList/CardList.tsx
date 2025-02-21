@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import { Book } from '../../types/types';
 import Card from '../Card/Card';
 import Loader from '../Loader/Loader';
@@ -15,7 +15,6 @@ export default function CardList() {
     search: string | null;
   }>();
   const { data, isFetching, error } = useGetDataQuery(params);
-  const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
 
   const showResult = () => {
@@ -50,20 +49,7 @@ export default function CardList() {
   };
 
   return (
-    <div
-      className={`main theme-${theme}`}
-      onClick={(e) => {
-        if (
-          e.target instanceof HTMLInputElement ||
-          e.target instanceof HTMLLabelElement ||
-          e.target instanceof HTMLButtonElement ||
-          location.pathname === '/'
-        ) {
-          return;
-        }
-        navigate('/' + location.search);
-      }}
-    >
+    <div className={`main theme-${theme}`}>
       {isFetching && !error ? <Loader /> : showResult()}
     </div>
   );

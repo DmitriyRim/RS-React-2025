@@ -22,6 +22,32 @@ vi.mock('../../app/hooks', async () => {
 });
 
 describe('Tests for the Card List component', () => {
+  const data = {
+    data: {
+      count: 2,
+      results: [
+        {
+          id: 123,
+          title: 'Test1',
+          summaries: '',
+          formats: {
+            'image/jpeg': '',
+          },
+        },
+        {
+          id: 124,
+          title: 'Test2',
+          summaries: '',
+          formats: {
+            'image/jpeg': '',
+          },
+        },
+      ],
+    },
+    isFetching: false,
+    error: null,
+  };
+
   const Stub = createRoutesStub([
     {
       path: '/',
@@ -29,39 +55,15 @@ describe('Tests for the Card List component', () => {
     },
   ]);
 
-  it('Verify that the component renders the specified number of cards', async () => {
-    (useGetDataQuery as Mock).mockReturnValue({
-      data: {
-        count: 2,
-        results: [
-          {
-            id: 123,
-            title: 'Test1',
-            summaries: '',
-            formats: {
-              'image/jpeg': '',
-            },
-          },
-          {
-            id: 124,
-            title: 'Test2',
-            summaries: '',
-            formats: {
-              'image/jpeg': '',
-            },
-          },
-        ],
-      },
-      isFetching: false,
-      error: null,
-    });
+  test('Verify that the component renders the specified number of cards', async () => {
+    (useGetDataQuery as Mock).mockReturnValue(data);
     render(<Stub initialEntries={['/']} />);
     await waitFor(() => {
       expect(screen.getAllByText(/test/i).length).toBe(2);
     });
   });
 
-  it('Check that an appropriate message is displayed if no cards are present', async () => {
+  test('Check that an appropriate message is displayed if no cards are present', async () => {
     (useGetDataQuery as Mock).mockReturnValue({
       data: { count: 0, results: [] },
     });
@@ -70,6 +72,39 @@ describe('Tests for the Card List component', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Not found')).toBeInTheDocument();
+    });
+  });
+
+  test('If there is a Error.', async () => {
+    (useGetDataQuery as Mock).mockReturnValue({
+      error: new Error('test Error'),
+    });
+
+    render(<Stub initialEntries={['/']} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('test Error')).toBeInTheDocument();
+    });
+  });
+
+  test('If there is a FetchBaseQueryError error.', async () => {
+    (useGetDataQuery as Mock).mockReturnValue({
+      error: {
+        status: 404,
+        data: 'test',
+        error: 'Error 2',
+      },
+    });
+
+    render(<Stub initialEntries={['/']} />);
+    expect(screen.getByText(/error 2/i)).toBeInTheDocument();
+  });
+
+  test('1', async () => {
+    (useGetDataQuery as Mock).mockReturnValue(data);
+    render(<Stub initialEntries={['/']} />);
+    await waitFor(() => {
+      expect(screen.getAllByText(/test/i).length).toBe(2);
     });
   });
 });
