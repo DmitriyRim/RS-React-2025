@@ -12,7 +12,9 @@ export default function Card({ value }: Props) {
   const location = useLocation();
   const checkedData = useAppSelector(selectCheckedCard);
   const dispatch = useAppDispatch();
+  const { id, title, formats, summaries } = value;
   const isAdded = checkedData.some((data) => data.id === value.id);
+  const imageUrl = formats?.['image/jpeg'];
 
   const handleChangeInput = () => {
     if (!isAdded) {
@@ -23,25 +25,18 @@ export default function Card({ value }: Props) {
   };
 
   return (
-    <Link to={`${value.id}${location.search}`}>
+    <Link to={`${id}${location.search}`}>
       <li className="card">
         <h3 className="card-title">{value.title}</h3>
-        {'image/jpeg' in value.formats &&
-        typeof value.formats['image/jpeg'] === 'string' ? (
-          <img
-            src={value.formats['image/jpeg']}
-            className="card-image"
-            alt=""
-          />
-        ) : null}
-        <p className="card-description">{value.summaries}</p>
+        {imageUrl && <img src={imageUrl} className="card-image" alt={title} />}
+        <p className="card-description">{summaries}</p>
         <form>
-          <label htmlFor={`${value.id}`} onClick={handleChangeInput}>
+          <label htmlFor={`${id}`} onClick={handleChangeInput}>
             {isAdded ? 'Remove' : 'Add'}
             <input
               type="checkbox"
               checked={isAdded}
-              id={`${value.id}`}
+              id={`${id}`}
               onChange={handleChangeInput}
             />
           </label>
