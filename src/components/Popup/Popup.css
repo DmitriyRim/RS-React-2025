@@ -1,0 +1,23 @@
+.popup {
+    background-color: var(--dark);
+    color: var(--light);
+    padding: 1em;
+    border-radius: .5em;
+    position: fixed;
+    right: 1em;
+    bottom: 4em;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.popup-buttons > *+* {
+    margin-left: 0.5em;
+}
+
+.background-dark .popup {
+    background-color: var(--light);
+    color: var(--dark);
+}

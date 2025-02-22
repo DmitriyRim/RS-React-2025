@@ -1,0 +1,89 @@
+:root {
+  --light: #fdf0d5;
+  --dark: #003049;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: inherit;
+}
+
+body {
+  margin: 0;
+}
+
+.background-dark {
+  background-color: #003049;
+}
+
+.background-light {
+  background-color: #fdf0d5;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  grid-gap: 1em;
+}
+
+main {
+  display: flex;
+  padding-top: 2em;
+  position: relative;
+}
+
+footer {
+  margin-top: auto;
+  text-align: right;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+.button {
+  background-color: var(--dark);
+  font-weight: bold;
+  color: var(--light);
+  outline: none;
+  border: 1px solid var(--light);
+  padding: .2em 1em;
+  border-radius: 0.3em;
+  cursor: pointer;
+  transition: .3s background;
+}
+
+.button:hover,
+.theme-dark .button:hover {
+  background-color: #ecb087;
+}
+
+.button:hover {
+  background-color: #cc7236;
+}
+
+.theme-dark .button {
+  background-color: #cc7236;
+  color: var(--light);
+  border: 1px solid var(--dark);
+}
+
+.theme-dark .loader {
+  color: var(--light);
+}

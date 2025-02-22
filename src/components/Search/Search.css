@@ -1,0 +1,14 @@
+.search{
+  height: 2em;
+  display: flex;
+}
+
+.search > input {
+  outline: none;
+  padding: .2em 1em;
+  border-radius: 0.3em;
+  border: 1px solid var(--dark);
+}
+.search >.button {
+  padding: .2em 1em;
+}

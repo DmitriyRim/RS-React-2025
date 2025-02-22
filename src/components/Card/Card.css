@@ -1,0 +1,32 @@
+.card {
+  padding: 0.1em;
+  border: 1px solid var(--dark);
+  color: var(--dark);
+  border-radius: 0.5em;
+  overflow: hidden;
+  height: 100%;
+}
+
+.card-title {
+  height: 3em;
+  padding: 0 0.5em;
+  overflow: hidden;
+}
+
+.card-image {
+  max-width: 15em;
+}
+
+.card-description {
+  font-size: 0.9rem;
+  padding: 0 0.5em;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.theme-dark .card {
+  border: 1px solid var(--light);
+  color: var(--light);
+}
