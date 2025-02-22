@@ -7,7 +7,7 @@ describe('Search component', () => {
     localStorage.clear();
   });
 
-  it('Verify that clicking the Search button saves the entered value to the local storage.', async () => {
+  test('Verify that clicking the Search button saves the entered value to the local storage.', async () => {
     const Stub = createRoutesStub([
       {
         path: '/',
@@ -24,7 +24,7 @@ describe('Search component', () => {
     expect(window.localStorage.getItem('searchQuery')).toBe('test value');
   });
 
-  it('Check that the component retrieves the value from the local storage upon mounting.', () => {
+  test('Check that the component retrieves the value from the local storage upon mounting.', () => {
     const testValue = 'Test';
     const Stub = createRoutesStub([
       {

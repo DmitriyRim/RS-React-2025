@@ -32,7 +32,7 @@ describe('Tests for the Detailed Card component', () => {
     },
   ]);
 
-  it('Check that a loading indicator is displayed while fetching data', async () => {
+  test('Check that a loading indicator is displayed while fetching data', async () => {
     (useGetDataByIdQuery as Mock).mockReturnValue({
       data: {},
       isFetching: true,
@@ -44,7 +44,7 @@ describe('Tests for the Detailed Card component', () => {
     });
   });
 
-  it('Make sure the detailed card component correctly displays the detailed card data', () => {
+  test('Make sure the detailed card component correctly displays the detailed card data', () => {
     (useGetDataByIdQuery as Mock).mockReturnValue({
       data: {
         id: 123,
@@ -67,7 +67,7 @@ describe('Tests for the Detailed Card component', () => {
     expect(screen.getByText('John Doe')).toBeInTheDocument();
   });
 
-  it('Ensure that clicking the close button hides the component', () => {
+  test('Ensure that clicking the close button hides the component', () => {
     (useGetDataByIdQuery as Mock).mockReturnValue({
       data: {},
       isFetching: false,
