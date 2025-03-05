@@ -1,0 +1,12 @@
+.search {
+  height: 2em;
+  display: flex;
+  &_input {
+    outline: none;
+    padding: 0.2em 1em;
+    border-radius: 0.3em;
+    border: 1px solid var(--dark);
+  }
+}
+
+

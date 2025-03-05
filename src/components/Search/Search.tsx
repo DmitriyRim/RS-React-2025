@@ -1,8 +1,8 @@
-import './Search.css';
-import { Form } from 'react-router-dom';
+import styles from './Search.module.scss';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { useContext, useState } from 'react';
-import { ThemeContext } from '../../app/themeContext';
+import { ThemeContext } from '../../store/themeContext';
+import Form from 'next/form';
 
 export default function Search() {
   const query = useLocalStorage();
@@ -10,12 +10,13 @@ export default function Search() {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <Form className={`search theme-${theme}`}>
+    <Form className={`${styles.search} theme-${theme}`} action={'/'}>
       <input
         type="search"
         name="search"
         placeholder="Search..."
         defaultValue={query}
+        className={styles['search_input']}
         onChange={(e) => setInput(e.target.value)}
       />
       <button

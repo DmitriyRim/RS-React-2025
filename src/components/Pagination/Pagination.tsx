@@ -1,8 +1,9 @@
-import { useSearchParams, useLocation } from 'react-router-dom';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 export default function Pagination({ totalPages }: { totalPages: number }) {
-  const location = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams(location.search);
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const currentPage = searchParams.has('page')
     ? Number(searchParams.get('page'))
     : 1;
@@ -10,8 +11,9 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
 
   const goToPage = (pageNumber: number) => {
     const params = new URLSearchParams(searchParams);
+    const id = router.query.id;
     params.set('page', `${pageNumber}`);
-    setSearchParams(params);
+    router.push(`/${id ? id : ''}?${params.toString()}`);
   };
 
   const getPageNumbers = () => {

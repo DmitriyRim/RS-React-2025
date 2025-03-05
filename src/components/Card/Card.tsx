@@ -1,7 +1,8 @@
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Book } from '../../types/types';
-import './Card.css';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import styles from './Card.module.scss';
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { addCard, removeCard, selectCheckedCard } from '../../api/checkedSlice';
 
 type Props = {
@@ -9,12 +10,13 @@ type Props = {
 };
 
 export default function Card({ value }: Props) {
-  const location = useLocation();
-  const checkedData = useAppSelector(selectCheckedCard);
+  const searchParams = useSearchParams();
+  const checkedData = useAppSelector(selectCheckedCard) || [];
   const dispatch = useAppDispatch();
   const { id, title, formats, summaries } = value;
   const isAdded = checkedData.some((data) => data.id === value.id);
   const imageUrl = formats?.['image/jpeg'];
+  const params = searchParams?.toString();
 
   const handleChangeInput = () => {
     if (!isAdded) {
@@ -25,11 +27,13 @@ export default function Card({ value }: Props) {
   };
 
   return (
-    <Link to={`${id}${location.search}`}>
-      <li className="card">
-        <h3 className="card-title">{value.title}</h3>
-        {imageUrl && <img src={imageUrl} className="card-image" alt={title} />}
-        <p className="card-description">{summaries}</p>
+    <Link href={`/${id}${params ? '?' + params : ''}`}>
+      <li className={`card ${styles.card}`}>
+        <h3 className={styles['card-title']}>{value.title}</h3>
+        {imageUrl && (
+          <img src={imageUrl} className={styles['card-image']} alt={title} />
+        )}
+        <p className={styles['card-description']}>{summaries}</p>
         <form>
           <label htmlFor={`${id}`} onClick={handleChangeInput}>
             {isAdded ? 'Remove' : 'Add'}

@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { Popup } from '../../components/Popup/Popup';
-import { useAppSelector } from '../../app/hooks';
+import { useAppSelector } from '../../store/hooks';
 import { Mock } from 'vitest';
 
-vi.mock('../../app/hooks', async () => {
-  const actual = await vi.importActual('../../app/hooks');
+vi.mock('../../store/hooks', async () => {
+  const actual = await vi.importActual('../../store/hooks');
   return {
     ...actual,
     useAppSelector: vi.fn(),

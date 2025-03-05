@@ -1,7 +1,6 @@
 import { removeAll, selectCheckedCard } from '../../api/checkedSlice';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { createBlobUrl } from '../../utils/utils';
-import './Popup.css';
 
 export const Popup = () => {
   const checkedData = useAppSelector(selectCheckedCard);
@@ -12,9 +11,9 @@ export const Popup = () => {
   }
 
   return (
-    <div className="popup">
+    <div className={'popup'}>
       <p>{checkedData.length} items are selected</p>
-      <div className="popup-buttons">
+      <div className={'popup-buttons'}>
         <button className="button" onClick={() => dispatch(removeAll())}>
           Unselect all
         </button>

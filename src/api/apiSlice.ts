@@ -20,7 +20,9 @@ export const apiSlice = createApi({
       },
     }),
     getDataById: builder.query<Book, string>({
-      query: (id) => `/${id}`,
+      query: (id) => {
+        return `${id}`;
+      },
     }),
   }),
 });

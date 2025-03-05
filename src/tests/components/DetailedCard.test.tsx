@@ -1,79 +1,59 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import { createRoutesStub, useLoaderData } from 'react-router-dom';
+import { render, screen } from '@testing-library/react';
 import DetailsCard from '../../components/DetailsCard/DetailsCard';
-import { useGetDataByIdQuery } from '../../api/apiSlice';
 import { Mock } from 'vitest';
+import { useLoader } from '../../hooks/useLoader';
+import { Book } from '../../types/types';
 
-vi.mock('react-router-dom', async () => {
-  const mod = await vi.importActual('react-router-dom');
-  return {
-    ...mod,
-    useLoaderData: vi.fn(),
-  };
-});
-
-vi.mock('../../api/apiSlice', async () => {
-  const actual = await vi.importActual('../../api/apiSlice');
+vi.mock('../../hooks/useLoader', async () => {
+  const actual = await vi.importActual('../../hooks/useLoader');
   return {
     ...actual,
-    useGetDataByIdQuery: vi.fn(),
+    useLoader: vi.fn(),
   };
 });
 
 describe('Tests for the Detailed Card component', () => {
-  beforeEach(() => {
-    (useLoaderData as Mock).mockReturnValue(123);
-  });
-
-  const Stub = createRoutesStub([
-    {
-      path: '/:id',
-      Component: DetailsCard,
+  const resultsData: { data: Book } = {
+    data: {
+      id: 123,
+      title: 'Test Book',
+      authors: [
+        {
+          name: 'John Doe',
+          birth_year: null,
+          death_year: null,
+        },
+      ],
+      formats: { 'image/jpeg': 'test-image.jpg' },
+      summaries: ['A great book'],
+      subjects: ['Fiction'],
+      bookshelves: ['Bestsellers'],
+      languages: ['en'],
+      download_count: 42,
+      translators: [],
+      copyright: null,
+      media_type: '',
     },
-  ]);
+  };
 
-  test('Check that a loading indicator is displayed while fetching data', async () => {
-    (useGetDataByIdQuery as Mock).mockReturnValue({
-      data: {},
-      isFetching: true,
-      error: null,
-    });
-    render(<Stub initialEntries={['/123']} />);
-    await waitFor(() => {
-      expect(screen.getByText(/loading/i)).toBeInTheDocument();
-    });
+  test('Check that a loading indicator is displayed while fetching data', () => {
+    (useLoader as Mock).mockReturnValue(true);
+    render(<DetailsCard results={resultsData} />);
+
+    expect(screen.getByText(/loading/i)).toBeInTheDocument();
   });
 
   test('Make sure the detailed card component correctly displays the detailed card data', () => {
-    (useGetDataByIdQuery as Mock).mockReturnValue({
-      data: {
-        id: 123,
-        title: 'Test Book',
-        authors: [{ name: 'John Doe' }],
-        formats: { 'image/jpeg': 'test-image.jpg' },
-        summaries: ['A great book'],
-        subjects: ['Fiction'],
-        bookshelves: ['Bestsellers'],
-        languages: ['en'],
-        download_count: 42,
-      },
-      isFetching: false,
-      error: null,
-    });
-
-    render(<Stub initialEntries={['/123']} />);
+    (useLoader as Mock).mockReturnValue(false);
+    render(<DetailsCard results={resultsData} />);
 
     expect(screen.getByText('Test Book')).toBeInTheDocument();
     expect(screen.getByText('John Doe')).toBeInTheDocument();
   });
 
   test('Ensure that clicking the close button hides the component', () => {
-    (useGetDataByIdQuery as Mock).mockReturnValue({
-      data: {},
-      isFetching: false,
-      error: null,
-    });
-    render(<Stub initialEntries={['/11111']} />);
+    (useLoader as Mock).mockReturnValue(false);
+    render(<DetailsCard results={{} as { data: Book }} />);
     expect(screen.getByText('Not found')).toBeInTheDocument();
   });
 });

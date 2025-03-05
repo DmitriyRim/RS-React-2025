@@ -1,14 +1,20 @@
-import { useLoaderData, useNavigate } from 'react-router-dom';
-import './DetailsCard.css';
+import Link from 'next/link';
+import styles from './DetailsCard.module.scss';
+import { Book } from '../../types/types';
 import Loader from '../Loader/Loader';
-import { useGetDataByIdQuery } from '../../api/apiSlice';
+import { LoaderPath, useLoader } from '../../hooks/useLoader';
+import { ThemeContext } from '../../store/themeContext';
 import { useContext } from 'react';
-import { ThemeContext } from '../../app/themeContext';
 
-export default function DetailsCard() {
-  const id = useLoaderData();
-  const navigate = useNavigate();
-  const { data, isFetching } = useGetDataByIdQuery(id);
+interface Props {
+  results: {
+    data: Book;
+  };
+}
+
+export default function DetailsCard({ results }: Props) {
+  const { data } = results;
+  const loading = useLoader(LoaderPath.PageId);
   const { theme } = useContext(ThemeContext);
 
   function getLists(title: string, arr: string[] | undefined) {
@@ -29,17 +35,14 @@ export default function DetailsCard() {
   }
 
   return (
-    <div className={`details theme-${theme}`}>
-      {isFetching ? (
+    <div className={`${styles.details} theme-${theme}`}>
+      {loading ? (
         <Loader />
       ) : data?.id ? (
         <>
-          <button
-            className="close button"
-            onClick={() => navigate('/' + location.search)}
-          >
+          <Link className="close button" href={`/`}>
             X
-          </button>
+          </Link>
           <h2>{data?.title}</h2>
           <div>
             {data &&

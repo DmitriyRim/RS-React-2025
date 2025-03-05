@@ -1,6 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import Search from '../../components/Search/Search';
-import { createRoutesStub } from 'react-router-dom';
 
 describe('Search component', () => {
   beforeEach(() => {
@@ -8,13 +7,7 @@ describe('Search component', () => {
   });
 
   test('Verify that clicking the Search button saves the entered value to the local storage.', async () => {
-    const Stub = createRoutesStub([
-      {
-        path: '/',
-        Component: Search,
-      },
-    ]);
-    render(<Stub initialEntries={['/']} />);
+    render(<Search />);
     const input = screen.getByRole('searchbox');
     const button = screen.getByRole('button', { name: /search/i });
 
@@ -26,15 +19,8 @@ describe('Search component', () => {
 
   test('Check that the component retrieves the value from the local storage upon mounting.', () => {
     const testValue = 'Test';
-    const Stub = createRoutesStub([
-      {
-        path: '/',
-        Component: Search,
-      },
-    ]);
-
     localStorage.setItem('searchQuery', testValue);
-    render(<Stub initialEntries={['/']} />);
+    render(<Search />);
 
     expect(screen.getByRole<HTMLInputElement>('searchbox').value).toBe(
       testValue
