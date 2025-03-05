@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import ErrorPage from '../../components/ErrorPage/ErrorPage';
+import ErrorPage from '../../pages/404';
 
 describe('Error page', () => {
   test('Show error page', () => {

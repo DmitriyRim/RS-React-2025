@@ -15,7 +15,7 @@ export default function Card({ value }: Props) {
   const dispatch = useAppDispatch();
   const { id, title, formats, summaries } = value;
   const isAdded = checkedData.some((data) => data.id === value.id);
-  const imageUrl = formats?.['image/jpeg'];
+  const imageUrl = formats?.['image/jpeg'] || '/not-image.jpg';
   const params = searchParams?.toString();
 
   const handleChangeInput = () => {
@@ -30,9 +30,7 @@ export default function Card({ value }: Props) {
     <Link href={`/${id}${params ? '?' + params : ''}`}>
       <li className={`card ${styles.card}`}>
         <h3 className={styles['card-title']}>{value.title}</h3>
-        {imageUrl && (
-          <img src={imageUrl} className={styles['card-image']} alt={title} />
-        )}
+        {<img src={imageUrl} className={styles['card-image']} alt={title} />}
         <p className={styles['card-description']}>{summaries}</p>
         <form>
           <label htmlFor={`${id}`} onClick={handleChangeInput}>

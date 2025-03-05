@@ -88,4 +88,11 @@ describe('Tests for the Card List component', () => {
 
     expect(screen.getAllByText(/test/i).length).toBe(2);
   });
+
+  test('Displaying the loader when loading', () => {
+    (useLoader as Mock).mockReturnValue(true);
+    render(<CardList data={data as unknown as ResponseBooks} />);
+
+    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+  });
 });
