@@ -1,0 +1,17 @@
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+  grid-template-rows: auto;
+  grid-gap: 1em;
+  justify-content: stretch;
+  padding-left: 0;
+  list-style: none;
+  &,
+  &__message {
+    flex: 1 60%;
+  }
+  &__message{
+    font-size: 2em;
+  }
+}
+

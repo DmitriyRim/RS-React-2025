@@ -1,0 +1,153 @@
+:root {
+  --light: #fdf0d5;
+  --dark: #003049;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: inherit;
+}
+
+body {
+  margin: 0;
+}
+
+.background-dark {
+  background-color: #003049;
+}
+
+.background-light {
+  background-color: #fdf0d5;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  min-height: 100vh;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  grid-gap: 1em;
+}
+
+main {
+  display: flex;
+  padding-top: 2em;
+  position: relative;
+}
+
+footer {
+  margin-top: auto;
+  text-align: right;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+.button {
+  background-color: var(--dark);
+  font-weight: bold;
+  color: var(--light);
+  outline: none;
+  border: 1px solid var(--light);
+  padding: 0.2em 1em;
+  border-radius: 0.3em;
+  cursor: pointer;
+  transition: 0.3s background;
+}
+
+.button:hover,
+.theme-dark .button:hover {
+  background-color: #ecb087;
+}
+
+.button:hover {
+  background-color: #cc7236;
+}
+
+.theme-dark .button {
+  background-color: #cc7236;
+  color: var(--light);
+  border: 1px solid var(--dark);
+}
+
+.theme-dark .loader {
+  color: var(--light);
+}
+
+.popup {
+  background-color: var(--dark);
+  color: var(--light);
+  padding: 1em;
+  border-radius: 0.5em;
+  position: fixed;
+  right: 1em;
+  bottom: 4em;
+  &-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  &  > * + * {
+    margin-left: 0.5em;
+  }
+}
+
+.background-dark .popup {
+  background-color: var(--light);
+  color: var(--dark);
+}
+
+.main {
+  text-align: center;
+  width: 100%;
+  min-width: 60%;
+}
+
+.pagination {
+  gap: 0.5em;
+  justify-content: center;
+}
+
+.theme-dark {
+  color: var(--light);
+}
+
+.theme-dark .card {
+  border: 1px solid var(--light);
+  color: var(--light);
+}
+
+.close {
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
+  cursor: pointer;
+}
+
+.error-page{
+  margin: 0 auto;
+}
+
+.background-dark .error-page,
+.background-dark .error-page > a {
+  color: var(--light)
+}
