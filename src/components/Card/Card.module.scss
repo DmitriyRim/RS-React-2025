@@ -5,25 +5,25 @@
   border-radius: 0.5em;
   overflow: hidden;
   height: 100%;
+  &-title {
+    height: 3em;
+    padding: 0 0.5em;
+    overflow: hidden;
+  }
+  &-image {
+    max-width: 15em;
+  }
+  &-description {
+    font-size: 0.9rem;
+    padding: 0 0.5em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  &-button{
+    margin-top: auto;
+    margin: 0 auto;
+    max-width: 10em;
+  }
 }
-
-.card-title {
-  height: 3em;
-  padding: 0 0.5em;
-  overflow: hidden;
-}
-
-.card-image {
-  max-width: 15em;
-}
-
-.card-description {
-  font-size: 0.9rem;
-  padding: 0 0.5em;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-}
-
-

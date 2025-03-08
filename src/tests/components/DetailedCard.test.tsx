@@ -1,14 +1,22 @@
 import { render, screen } from '@testing-library/react';
 import DetailsCard from '../../components/DetailsCard/DetailsCard';
-import { Mock } from 'vitest';
-import { useLoader } from '../../hooks/useLoader';
 import { Book } from '../../types/types';
 
-vi.mock('../../hooks/useLoader', async () => {
-  const actual = await vi.importActual('../../hooks/useLoader');
+const mockDispatch = vi.fn();
+
+vi.mock('../../store/store', async () => {
+  const actual =
+    await vi.importActual<typeof import('../../store/store')>(
+      '../../store/store'
+    );
   return {
     ...actual,
-    useLoader: vi.fn(),
+    makeStore: vi.fn(() => ({
+      dispatch: mockDispatch,
+      getState: vi.fn(() => ({})),
+      subscribe: vi.fn(),
+      replaceReducer: vi.fn(),
+    })),
   };
 });
 
@@ -36,24 +44,21 @@ describe('Tests for the Detailed Card component', () => {
     },
   };
 
-  test('Check that a loading indicator is displayed while fetching data', () => {
-    (useLoader as Mock).mockReturnValue(true);
-    render(<DetailsCard results={resultsData} />);
+  test('Make sure the detailed card component correctly displays the detailed card data', async () => {
+    mockDispatch.mockResolvedValue(resultsData);
 
-    expect(screen.getByText(/loading/i)).toBeInTheDocument();
-  });
-
-  test('Make sure the detailed card component correctly displays the detailed card data', () => {
-    (useLoader as Mock).mockReturnValue(false);
-    render(<DetailsCard results={resultsData} />);
+    const jsx = await DetailsCard({ id: { id: '1' } });
+    render(jsx);
 
     expect(screen.getByText('Test Book')).toBeInTheDocument();
     expect(screen.getByText('John Doe')).toBeInTheDocument();
   });
 
-  test('Ensure that clicking the close button hides the component', () => {
-    (useLoader as Mock).mockReturnValue(false);
-    render(<DetailsCard results={{} as { data: Book }} />);
+  test('Ensure that clicking the close button hides the component', async () => {
+    mockDispatch.mockResolvedValue({});
+
+    const jsx = await DetailsCard({ id: { id: '1' } });
+    render(jsx);
     expect(screen.getByText('Not found')).toBeInTheDocument();
   });
 });

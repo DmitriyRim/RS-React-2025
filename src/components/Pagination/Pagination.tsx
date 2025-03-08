@@ -1,9 +1,11 @@
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
+'use client';
+
+import { useSearchParams, useRouter, useParams } from 'next/navigation';
 
 export default function Pagination({ totalPages }: { totalPages: number }) {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { id } = useParams();
   const currentPage = searchParams.has('page')
     ? Number(searchParams.get('page'))
     : 1;
@@ -11,7 +13,6 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
 
   const goToPage = (pageNumber: number) => {
     const params = new URLSearchParams(searchParams);
-    const id = router.query.id;
     params.set('page', `${pageNumber}`);
     router.push(`/${id ? id : ''}?${params.toString()}`);
   };

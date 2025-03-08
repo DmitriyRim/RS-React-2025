@@ -1,9 +1,11 @@
-import Link from 'next/link';
+'use client';
+
 import { useSearchParams } from 'next/navigation';
 import { Book } from '../../types/types';
 import styles from './Card.module.scss';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { addCard, removeCard, selectCheckedCard } from '../../api/checkedSlice';
+import { redirect } from 'next/navigation';
 
 type Props = {
   value: Book;
@@ -27,23 +29,33 @@ export default function Card({ value }: Props) {
   };
 
   return (
-    <Link href={`/${id}${params ? '?' + params : ''}`}>
-      <li className={`card ${styles.card}`}>
-        <h3 className={styles['card-title']}>{value.title}</h3>
-        {<img src={imageUrl} className={styles['card-image']} alt={title} />}
-        <p className={styles['card-description']}>{summaries}</p>
-        <form>
-          <label htmlFor={`${id}`} onClick={handleChangeInput}>
-            {isAdded ? 'Remove' : 'Add'}
-            <input
-              type="checkbox"
-              checked={isAdded}
-              id={`${id}`}
-              onChange={handleChangeInput}
-            />
-          </label>
-        </form>
-      </li>
-    </Link>
+    <li
+      className={`card ${styles.card}`}
+      onClick={(e) => {
+        if (
+          e.target instanceof HTMLElement &&
+          !e.target.classList.contains('button') &&
+          e.target.tagName !== 'INPUT'
+        ) {
+          redirect(`/${id}${params ? '?' + params : ''}`);
+        }
+      }}
+    >
+      <h3 className={styles['card-title']}>{value.title}</h3>
+      <img src={imageUrl} className={styles['card-image']} alt={title} />
+      <p className={styles['card-description']}>{summaries}</p>
+      <div
+        className={`button ${styles['card-button']}`}
+        onClick={handleChangeInput}
+      >
+        {isAdded ? 'Remove' : 'Add'}
+        <input
+          type="checkbox"
+          checked={isAdded}
+          id={`${id}`}
+          onChange={handleChangeInput}
+        />
+      </div>
+    </li>
   );
 }

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import ErrorPage from '../../pages/404';
+import ErrorPage from '../../app/not-found.tsx';
 
 describe('Error page', () => {
   test('Show error page', () => {

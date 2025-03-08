@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './Search.module.scss';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { useContext, useState } from 'react';

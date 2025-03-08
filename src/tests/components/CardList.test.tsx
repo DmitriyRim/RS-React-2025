@@ -1,22 +1,21 @@
 import { render, screen } from '@testing-library/react';
-import { Mock } from 'vitest';
 import CardList from '../../components/CardList/CardList';
-import { ResponseBooks } from '../../types/types';
-import { useLoader } from '../../hooks/useLoader';
 
-vi.mock('../../hooks/useLoader', async () => {
-  const actual = await vi.importActual('../../hooks/useLoader');
+const mockDispatch = vi.fn();
+
+vi.mock('../../store/store', async () => {
+  const actual =
+    await vi.importActual<typeof import('../../store/store')>(
+      '../../store/store'
+    );
   return {
     ...actual,
-    useLoader: vi.fn(),
-  };
-});
-
-vi.mock('next/router', async () => {
-  const actual = await vi.importActual('next/router');
-  return {
-    ...actual,
-    useRouter: vi.fn(),
+    makeStore: vi.fn(() => ({
+      dispatch: mockDispatch,
+      getState: vi.fn(() => ({})),
+      subscribe: vi.fn(),
+      replaceReducer: vi.fn(),
+    })),
   };
 });
 
@@ -24,7 +23,9 @@ vi.mock('next/navigation', async () => {
   const actual = await vi.importActual('next/navigation');
   return {
     ...actual,
-    useSearchParams: vi.fn().mockReturnValue(new URLSearchParams()),
+    useSearchParams: vi.fn(() => new URLSearchParams('')),
+    useRouter: vi.fn(),
+    useParams: vi.fn(() => ({ id: '1' })),
   };
 });
 
@@ -65,34 +66,28 @@ describe('Tests for the Card List component', () => {
       },
     ],
   };
+  test('Verify that the component renders the specified number of cards', async () => {
+    mockDispatch.mockResolvedValue({ data });
 
-  test('Verify that the component renders the specified number of cards', () => {
-    (useLoader as Mock).mockReturnValue(false);
-    render(<CardList data={data as unknown as ResponseBooks} />);
-
+    const jsx = await CardList({ queryParams: { page: '', search: '' } });
+    render(jsx);
     expect(screen.getAllByText(/test/i).length).toBe(2);
   });
 
   test('Check that an appropriate message is displayed if no cards are present', async () => {
-    (useLoader as Mock).mockReturnValue(false);
-    render(
-      <CardList data={{ count: 0, results: [] } as unknown as ResponseBooks} />
-    );
+    mockDispatch.mockResolvedValue({ data: { count: 0, results: [] } });
 
+    const jsx = await CardList({ queryParams: { page: '', search: '' } });
+    render(jsx);
     expect(screen.getByText('Not found')).toBeInTheDocument();
   });
 
   test('The required number of cards is displayed', async () => {
-    (useLoader as Mock).mockReturnValue(false);
-    render(<CardList data={data as unknown as ResponseBooks} />);
+    mockDispatch.mockResolvedValue({ data });
+
+    const jsx = await CardList({ queryParams: { page: '', search: '' } });
+    render(jsx);
 
     expect(screen.getAllByText(/test/i).length).toBe(2);
-  });
-
-  test('Displaying the loader when loading', () => {
-    (useLoader as Mock).mockReturnValue(true);
-    render(<CardList data={data as unknown as ResponseBooks} />);
-
-    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
   });
 });

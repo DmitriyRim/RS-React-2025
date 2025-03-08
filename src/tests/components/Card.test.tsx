@@ -5,11 +5,13 @@ import { Book } from '../../types/types';
 import { Mock } from 'vitest';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addCard, removeCard } from '../../api/checkedSlice';
+import { redirect } from 'next/navigation';
 
 vi.mock('next/navigation', async () => {
   const actual = await vi.importActual('next/navigation');
   return {
     ...actual,
+    redirect: vi.fn(),
     useSearchParams: vi.fn().mockReturnValue(''),
   };
 });
@@ -64,18 +66,19 @@ describe('Tests for the Card component', () => {
     expect(screen.getByText(data.title)).toBeInTheDocument();
   });
 
-  test('Validate that clicking on a card opens a detailed card component', () => {
+  test('Validate that clicking on a card opens a detailed card component', async () => {
     render(<Card value={data as unknown as Book} />);
 
-    const link = screen.getByRole('link');
-    expect(link).toHaveAttribute('href', '/1');
+    const link = screen.getByRole('heading');
+    await user.click(link);
+    expect(redirect).toBeCalledWith('/1');
   });
 
   test('addCard when clicked, if the card has not been added', async () => {
     render(<Card value={data as unknown as Book} />);
 
-    const label = screen.getByLabelText('Add');
-    await user.click(label);
+    const label = screen.getAllByText('Add');
+    await user.click(label[0]);
 
     expect(addCard).toHaveBeenCalledWith(data);
     expect(mockDispatch).toHaveBeenCalledWith(addCard(data));
@@ -85,8 +88,8 @@ describe('Tests for the Card component', () => {
     (useAppSelector as unknown as Mock).mockReturnValue([data]);
     render(<Card value={data as unknown as Book} />);
 
-    const label = screen.getByLabelText('Remove');
-    await user.click(label);
+    const label = screen.getAllByText('Remove');
+    await user.click(label[0]);
 
     expect(removeCard).toHaveBeenCalledWith(data.id);
     expect(mockDispatch).toHaveBeenCalledWith(removeCard(data.id));

@@ -1,21 +1,20 @@
 import Link from 'next/link';
 import styles from './DetailsCard.module.scss';
-import { Book } from '../../types/types';
-import Loader from '../Loader/Loader';
-import { LoaderPath, useLoader } from '../../hooks/useLoader';
-import { ThemeContext } from '../../store/themeContext';
-import { useContext } from 'react';
+import { makeStore } from '../../store/store';
+import { apiSlice } from '../../api/apiSlice';
 
 interface Props {
-  results: {
-    data: Book;
+  id: {
+    id: string;
   };
 }
 
-export default function DetailsCard({ results }: Props) {
-  const { data } = results;
-  const loading = useLoader(LoaderPath.PageId);
-  const { theme } = useContext(ThemeContext);
+export default async function DetailsCard({ id }: Props) {
+  const store = makeStore();
+  const result = await store.dispatch(
+    apiSlice.endpoints.getDataById.initiate(id.id)
+  );
+  const { data } = result;
 
   function getLists(title: string, arr: string[]) {
     return (
@@ -31,10 +30,8 @@ export default function DetailsCard({ results }: Props) {
   }
 
   return (
-    <div className={`${styles.details} theme-${theme}`}>
-      {loading ? (
-        <Loader />
-      ) : data?.id ? (
+    <div className={styles.details}>
+      {data?.id ? (
         <>
           <Link className="close button" href={`/`}>
             X

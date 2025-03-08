@@ -1,33 +1,33 @@
-import { Book, ResponseBooks } from '../../types/types';
+import { Book } from '../../types/types';
 import Card from '../Card/Card';
 import styles from './CardList.module.scss';
 import Pagination from '../Pagination/Pagination';
 
-import { useContext } from 'react';
-import { ThemeContext } from '../../store/themeContext';
-import { useLoader } from '../../hooks/useLoader';
-import Loader from '../Loader/Loader';
+import { apiSlice } from '../../api/apiSlice';
+import { makeStore } from '../../store/store';
 
 interface Props {
-  data: ResponseBooks;
+  queryParams: {
+    page: string;
+    search: string;
+  };
 }
 
-export default function CardList({ data }: Props) {
-  const { theme } = useContext(ThemeContext);
-  const { count, results } = data;
-  const loading = useLoader();
-
+export default async function CardList({ queryParams }: Props) {
+  const store = makeStore();
+  const result = await store.dispatch(
+    apiSlice.endpoints.getData.initiate(queryParams)
+  );
+  const { data } = result;
   const showResult = () => {
-    if (loading) {
-      return <Loader />;
-    }
     if (data) {
+      const { count } = data;
       const totalPages = Math.ceil(count / 32);
 
-      return results.length !== 0 ? (
+      return data.results.length !== 0 ? (
         <>
           <ul className={styles['card-list']}>
-            {results.map((item: Book) => (
+            {data.results.map((item: Book) => (
               <Card key={item.id} value={item} />
             ))}
           </ul>
@@ -39,5 +39,5 @@ export default function CardList({ data }: Props) {
     }
   };
 
-  return <div className={`main theme-${theme}`}>{showResult()}</div>;
+  return <div className={`main theme-${1}`}>{showResult()}</div>;
 }

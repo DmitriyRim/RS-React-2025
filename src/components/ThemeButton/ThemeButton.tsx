@@ -1,3 +1,5 @@
+'use client';
+
 import { useContext } from 'react';
 import { ThemeContext } from '../../store/themeContext';
 import styles from './ThemeButton.module.scss';

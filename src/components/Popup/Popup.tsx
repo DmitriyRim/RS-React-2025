@@ -1,3 +1,5 @@
+'use client';
+
 import { removeAll, selectCheckedCard } from '../../api/checkedSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { createBlobUrl } from '../../utils/utils';
