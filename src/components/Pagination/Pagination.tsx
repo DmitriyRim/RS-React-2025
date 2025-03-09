@@ -1,11 +1,9 @@
-'use client';
-
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
+import { useLocation, useSearchParams, useNavigate } from 'react-router';
 
 export default function Pagination({ totalPages }: { totalPages: number }) {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const navigate = useNavigate();
   const currentPage = searchParams.has('page')
     ? Number(searchParams.get('page'))
     : 1;
@@ -14,7 +12,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
   const goToPage = (pageNumber: number) => {
     const params = new URLSearchParams(searchParams);
     params.set('page', `${pageNumber}`);
-    router.push(`/${id ? id : ''}?${params.toString()}`);
+    navigate(`${location.pathname}?${params.toString()}`);
   };
 
   const getPageNumbers = () => {

@@ -106,7 +106,7 @@ h1 {
     display: flex;
     justify-content: space-between;
   }
-  &  > * + * {
+  & > * + * {
     margin-left: 0.5em;
   }
 }
@@ -143,11 +143,15 @@ h1 {
   cursor: pointer;
 }
 
-.error-page{
-  margin: 0 auto;
+.error-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .background-dark .error-page,
 .background-dark .error-page > a {
-  color: var(--light)
+  color: var(--light);
 }

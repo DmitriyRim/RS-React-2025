@@ -1,18 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Pagination from '../../components/Pagination/Pagination';
-import { useSearchParams } from 'next/navigation';
-import { Mock } from 'vitest';
+import Pagination from 'src/components/Pagination/Pagination';
 
-const mockPush = vi.fn();
+const mockNavigate = vi.fn();
 
-vi.mock('next/navigation', async () => {
-  const actual = await vi.importActual('next/navigation');
+vi.mock('react-router', async () => {
+  const actual = await vi.importActual('react-router');
   return {
     ...actual,
-    useSearchParams: vi.fn().mockReturnValue(new URLSearchParams()),
-    useRouter: vi.fn(() => ({ push: mockPush })),
-    useParams: vi.fn(() => ({ id: '1' })),
+    useNavigate: vi.fn(() => mockNavigate),
+    useSearchParams: vi.fn(() => [new URLSearchParams({ page: '1' }), vi.fn()]),
+    useLocation: vi.fn(() => ({ pathname: '/1' })),
   };
 });
 
@@ -25,15 +23,14 @@ describe('Tests for the Pagination component', () => {
 
     await user.click(screen.getByRole('button', { name: /next/i }));
 
-    expect(mockPush).toHaveBeenCalledTimes(1);
-    expect(mockPush).toHaveBeenCalledWith('/1?page=2');
+    expect(mockNavigate).toHaveBeenCalledTimes(1);
+    expect(mockNavigate).toHaveBeenCalledWith('/1?page=2');
   });
 
   test('Goes to the next and previous pages', async () => {
-    (useSearchParams as Mock).mockReturnValue(new URLSearchParams('page=1'));
     render(<Pagination totalPages={3} />);
     await user.click(screen.getByText('Next'));
-    expect(mockPush).toHaveBeenCalledWith('/1?page=2');
+    expect(mockNavigate).toHaveBeenCalledWith('/1?page=2');
   });
 
   test('Blocks Prev on the first and Next on the last pages', () => {

@@ -1,23 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Card from '../../components/Card/Card';
-import { Book } from '../../types/types';
 import { Mock } from 'vitest';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { addCard, removeCard } from '../../api/checkedSlice';
-import { redirect } from 'next/navigation';
+import Card from 'src/components/Card/Card';
+import { Book } from 'src/types/types';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { MemoryRouter } from 'react-router';
+import { addCard, removeCard } from 'src/api/checkedSlice';
 
-vi.mock('next/navigation', async () => {
-  const actual = await vi.importActual('next/navigation');
-  return {
-    ...actual,
-    redirect: vi.fn(),
-    useSearchParams: vi.fn().mockReturnValue(''),
-  };
-});
+const mockNavigate = vi.fn();
 
-vi.mock('../../store/hooks', async () => {
-  const actual = await vi.importActual('../../store/hooks');
+vi.mock('src/store/hooks', async () => {
+  const actual = await vi.importActual('src/store/hooks');
   return {
     ...actual,
     useAppSelector: vi.fn(),
@@ -25,7 +18,16 @@ vi.mock('../../store/hooks', async () => {
   };
 });
 
-vi.mock('../../api/checkedSlice', () => ({
+vi.mock('react-router', async () => {
+  const actual = await vi.importActual('react-router');
+  return {
+    ...actual,
+    useNavigate: vi.fn(() => mockNavigate),
+    useSearchParams: vi.fn(() => [new URLSearchParams(), vi.fn()]),
+  };
+});
+
+vi.mock('src/api/checkedSlice', () => ({
   addCard: vi.fn(),
   removeCard: vi.fn(),
   selectCheckedCard: () => [],
@@ -61,7 +63,11 @@ describe('Tests for the Card component', () => {
 
   test('Ensure that the card component renders the relevant card data', () => {
     (useAppSelector as unknown as Mock).mockReturnValue([]);
-    render(<Card value={data as unknown as Book} />);
+    render(
+      <MemoryRouter>
+        <Card value={data as unknown as Book} />
+      </MemoryRouter>
+    );
 
     expect(screen.getByText(data.title)).toBeInTheDocument();
   });
@@ -71,7 +77,7 @@ describe('Tests for the Card component', () => {
 
     const link = screen.getByRole('heading');
     await user.click(link);
-    expect(redirect).toBeCalledWith('/1');
+    expect(mockNavigate).toBeCalledWith('/1?');
   });
 
   test('addCard when clicked, if the card has not been added', async () => {

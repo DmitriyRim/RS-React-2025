@@ -1,10 +1,8 @@
-'use client';
-
 import styles from './Search.module.scss';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { useContext, useState } from 'react';
 import { ThemeContext } from '../../store/themeContext';
-import Form from 'next/form';
+import { Form } from 'react-router';
 
 export default function Search() {
   const query = useLocalStorage();

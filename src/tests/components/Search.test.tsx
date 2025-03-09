@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import Search from '../../components/Search/Search';
+import { createMemoryRouter, RouterProvider } from 'react-router';
+import Search from 'src/components/Search/Search';
 
 describe('Search component', () => {
   beforeEach(() => {
@@ -7,7 +8,10 @@ describe('Search component', () => {
   });
 
   test('Verify that clicking the Search button saves the entered value to the local storage.', async () => {
-    render(<Search />);
+    const router = createMemoryRouter([{ path: '/', element: <Search /> }], {
+      initialEntries: ['/'],
+    });
+    render(<RouterProvider router={router} />);
     const input = screen.getByRole('searchbox');
     const button = screen.getByRole('button', { name: /search/i });
 
@@ -20,7 +24,10 @@ describe('Search component', () => {
   test('Check that the component retrieves the value from the local storage upon mounting.', () => {
     const testValue = 'Test';
     localStorage.setItem('searchQuery', testValue);
-    render(<Search />);
+    const router = createMemoryRouter([{ path: '/', element: <Search /> }], {
+      initialEntries: ['/'],
+    });
+    render(<RouterProvider router={router} />);
 
     expect(screen.getByRole<HTMLInputElement>('searchbox').value).toBe(
       testValue

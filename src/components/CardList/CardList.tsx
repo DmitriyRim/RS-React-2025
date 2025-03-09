@@ -1,33 +1,22 @@
-import { Book } from '../../types/types';
+import { Book, ResponseBooks } from '../../types/types';
 import Card from '../Card/Card';
 import styles from './CardList.module.scss';
 import Pagination from '../Pagination/Pagination';
 
-import { apiSlice } from '../../api/apiSlice';
-import { makeStore } from '../../store/store';
-
 interface Props {
-  queryParams: {
-    page: string;
-    search: string;
-  };
+  result: ResponseBooks;
 }
 
-export default async function CardList({ queryParams }: Props) {
-  const store = makeStore();
-  const result = await store.dispatch(
-    apiSlice.endpoints.getData.initiate(queryParams)
-  );
-  const { data } = result;
+export default function CardList({ result }: Props) {
   const showResult = () => {
-    if (data) {
-      const { count } = data;
+    if (result) {
+      const { count } = result;
       const totalPages = Math.ceil(count / 32);
 
-      return data.results.length !== 0 ? (
+      return result.results.length !== 0 ? (
         <>
           <ul className={styles['card-list']}>
-            {data.results.map((item: Book) => (
+            {result.results.map((item: Book) => (
               <Card key={item.id} value={item} />
             ))}
           </ul>

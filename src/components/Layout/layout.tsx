@@ -1,5 +1,3 @@
-'use client';
-
 import { ReactNode } from 'react';
 import Search from '../Search/Search';
 import { ThemeContext, useThemeContext } from '../../store/themeContext';

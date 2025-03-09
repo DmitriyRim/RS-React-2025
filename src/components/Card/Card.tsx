@@ -1,24 +1,22 @@
-'use client';
-
-import { useSearchParams } from 'next/navigation';
 import { Book } from '../../types/types';
 import styles from './Card.module.scss';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { addCard, removeCard, selectCheckedCard } from '../../api/checkedSlice';
-import { redirect } from 'next/navigation';
+import { useNavigate, useSearchParams } from 'react-router';
 
 type Props = {
   value: Book;
 };
 
 export default function Card({ value }: Props) {
-  const searchParams = useSearchParams();
+  const [searchParams] = useSearchParams();
   const checkedData = useAppSelector(selectCheckedCard) || [];
   const dispatch = useAppDispatch();
   const { id, title, formats, summaries } = value;
   const isAdded = checkedData.some((data) => data.id === value.id);
   const imageUrl = formats?.['image/jpeg'] || '/not-image.jpg';
-  const params = searchParams?.toString();
+  const params = searchParams.toString();
+  const navigate = useNavigate();
 
   const handleChangeInput = () => {
     if (!isAdded) {
@@ -37,7 +35,7 @@ export default function Card({ value }: Props) {
           !e.target.classList.contains('button') &&
           e.target.tagName !== 'INPUT'
         ) {
-          redirect(`/${id}${params ? '?' + params : ''}`);
+          navigate(`/${id}?${params}`);
         }
       }}
     >
