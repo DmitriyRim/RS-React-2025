@@ -1,9 +1,17 @@
+import { NavLink, Outlet } from 'react-router';
 import './App.css';
 
 function App() {
   return (
     <>
-      <h1>Forms</h1>
+      <nav>
+        <NavLink to="/">Main</NavLink>
+        <NavLink to="/uncontrolled">uncontrolled</NavLink>
+        <NavLink to="/controlled">controlled</NavLink>
+      </nav>
+      <main>
+        <Outlet />
+      </main>
     </>
   );
 }
