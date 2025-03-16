@@ -58,7 +58,7 @@ export default function UncontrolledForm() {
 
   return (
     <form action={handleSubmit} className="form">
-      <div></div>
+      <h4>Uncontrolled Form</h4>
       <label>
         Name: <input name="name" type="text" />
       </label>

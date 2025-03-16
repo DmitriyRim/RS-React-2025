@@ -27,13 +27,13 @@ export default function Card({ data, title }: Props) {
               <h4>{name}</h4>
               {typeof img === 'string' && <img src={img} alt={name} />}
               <ul>
-                <li>Age{age}</li>
-                <li>email{email}</li>
-                <li>password{password}</li>
-                <li>confirmPassword{confirmPassword}</li>
-                <li>country{country}</li>
-                <li>gender{gender}</li>
-                <li>termCondition{termCondition}</li>
+                <li>Age: {age}</li>
+                <li>Email: {email}</li>
+                <li>Password: {password}</li>
+                <li>Confirm password: {confirmPassword}</li>
+                <li>Country{country}</li>
+                <li>Gender{gender}</li>
+                <li>Term condition: {termCondition}</li>
               </ul>
             </div>
           );

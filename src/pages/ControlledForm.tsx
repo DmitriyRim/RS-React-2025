@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { yupSchema } from '../utils/yupSchems';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { convertToBase64 } from '../utils/utils';
-import { updateUncontrolledData } from '../store/sliceFormData';
+import { updateControlledData } from '../store/sliceFormData';
 import { useNavigate } from 'react-router';
 
 export default function ControlledForm() {
@@ -23,14 +23,14 @@ export default function ControlledForm() {
       imgBase64 = await convertToBase64(data.img[0]);
     }
 
-    dispatch(updateUncontrolledData({ ...data, img: imgBase64 }));
+    dispatch(updateControlledData({ ...data, img: imgBase64 }));
     navigate('/');
   };
   watch();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form">
-      <div></div>
+      <h4>Controlled Form</h4>
       <label>
         Name: <input {...register('name')} type="text" />
       </label>
