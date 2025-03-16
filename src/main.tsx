@@ -7,12 +7,17 @@ import UncontrolledForm from './pages/UncontrolledForm.tsx';
 import ControlledForm from './pages/ControlledForm.tsx';
 import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
+import CardList from './pages/CardList.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
+      {
+        path: '/',
+        element: <CardList />,
+      },
       {
         path: '/uncontrolled',
         element: <UncontrolledForm />,

@@ -36,10 +36,6 @@ export const yupSchema: yup.ObjectSchema<User> = yup.object().shape({
           'The password must contain 1 digit, 1 uppercase letter, 1 lowercase letter, and 1 special character.',
       }
     )
-    .oneOf(
-      [yup.ref('password')],
-      'Password and confirm Password must be the same'
-    )
     .required()
     .defined(),
   gender: yup.string().required().defined(),

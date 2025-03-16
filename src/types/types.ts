@@ -6,6 +6,6 @@ export interface User {
   confirmPassword: string;
   gender: string;
   termCondition: string;
-  img: unknown;
+  img: string | null | FileList;
   country: string;
 }

@@ -5,11 +5,13 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { updateUncontrolledData } from '../store/sliceFormData';
 import { User } from '../types/types';
 import { convertToBase64 } from '../utils/utils';
+import { useNavigate } from 'react-router';
 
 export default function UncontrolledForm() {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const countries = useAppSelector((state) => state.countries);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (formData: FormData) => {
     const file = formData.get('img') as File | null;
@@ -38,6 +40,7 @@ export default function UncontrolledForm() {
           age: Number(result.age),
         } as unknown as User)
       );
+      navigate('/');
     } catch (err) {
       const newErrors: {
         [key: string]: string;
@@ -48,7 +51,6 @@ export default function UncontrolledForm() {
             newErrors[error.path] = error.message;
           }
         });
-        console.log(newErrors);
       }
       setErrors(newErrors);
     }
@@ -112,7 +114,7 @@ export default function UncontrolledForm() {
         </select>
       </label>
 
-      <input type="submit" />
+      <input type="submit" value="Submit" />
     </form>
   );
 }

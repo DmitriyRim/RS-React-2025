@@ -18,7 +18,6 @@ export const formSlice = createSlice({
   reducers: {
     updateUncontrolledData(state, action: PayloadAction<User>) {
       state.uncontrolled = [...state.controlled, action.payload];
-      console.log(action.payload);
     },
     updateControlledData(state, action: PayloadAction<User>) {
       state.controlled = [...state.uncontrolled, action.payload];
