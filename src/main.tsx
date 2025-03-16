@@ -3,6 +3,10 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router';
+import UncontrolledForm from './pages/UncontrolledForm.tsx';
+import ControlledForm from './pages/ControlledForm.tsx';
+import { Provider } from 'react-redux';
+import { store } from './store/store.ts';
 
 const router = createBrowserRouter([
   {
@@ -11,11 +15,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/uncontrolled',
-        element: <h1>uncontrolled</h1>,
+        element: <UncontrolledForm />,
       },
       {
         path: '/controlled',
-        element: <h1>controlled</h1>,
+        element: <ControlledForm />,
       },
     ],
   },
@@ -23,6 +27,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root') as Element).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>
 );

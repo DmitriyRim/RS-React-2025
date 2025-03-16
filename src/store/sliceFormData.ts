@@ -3,24 +3,13 @@ import { User } from '../types/types';
 import { RootState } from './store';
 
 interface formDataState {
-  uncontrolled: User;
-  controlled: User;
+  uncontrolled: User[];
+  controlled: User[];
 }
 
-const initialData: User = {
-  name: '',
-  age: 0,
-  email: '',
-  password: '',
-  gender: '',
-  termCondition: false,
-  img: '',
-  country: '',
-};
-
 const initialState: formDataState = {
-  uncontrolled: initialData,
-  controlled: initialData,
+  uncontrolled: [],
+  controlled: [],
 };
 
 export const formSlice = createSlice({
@@ -28,10 +17,11 @@ export const formSlice = createSlice({
   initialState,
   reducers: {
     updateUncontrolledData(state, action: PayloadAction<User>) {
-      console.log(state, action);
+      state.uncontrolled = [...state.controlled, action.payload];
+      console.log(action.payload);
     },
     updateControlledData(state, action: PayloadAction<User>) {
-      console.log(state, action);
+      state.controlled = [...state.uncontrolled, action.payload];
     },
   },
 });

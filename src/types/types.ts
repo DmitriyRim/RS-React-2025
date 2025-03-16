@@ -3,8 +3,9 @@ export interface User {
   age: number;
   email: string;
   password: string;
+  confirmPassword: string;
   gender: string;
-  termCondition: boolean;
-  img: string;
+  termCondition: string;
+  img: unknown;
   country: string;
 }
