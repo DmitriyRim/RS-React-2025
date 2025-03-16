@@ -1,0 +1,34 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.card {
+  padding: 1em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.card-list {
+  display: flex;
+  flex-basis: 50%;
+}
+
+.cards{
+  width: 50%;
+  flex: 1 1 0;
+}
+
+.cards img {
+  max-width: 300px;
+}
+
+.cards ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
