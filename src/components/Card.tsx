@@ -9,20 +9,26 @@ export default function Card({ country }: Props) {
   const imgUrls = Object.values(flags);
 
   return (
-    <div key={name.common}>
-      <h4>{name.common}</h4>
-      <h6>{name.official}</h6>
-      <p>population: {population}</p>
-      <p>{region}</p>
-      <div className="flags">
-        {
-          <img
-            style={{ width: '50px' }}
-            src={imgUrls[0]}
-            alt={name.common}
-            key={name.common}
-          />
-        }
+    <div key={name.common} className="card">
+      <h4>
+        {name.common}
+        <span className="subtitle">{name.official}</span>
+      </h4>
+      <div className="card-description">
+        <ul>
+          <li>Population: {population}</li>
+          <li>Region: {region}</li>
+        </ul>
+        <div className="flags">
+          {
+            <img
+              className="card-img"
+              src={imgUrls[0]}
+              alt={name.common}
+              key={name.common}
+            />
+          }
+        </div>
       </div>
     </div>
   );
