@@ -1,11 +1,12 @@
 import { Link } from 'react-router';
 import { Country } from '../types/types';
+import { memo } from 'react';
 
 interface Props {
   country: Country;
 }
 
-export default function Card({ country }: Props) {
+const Card = memo(function Card({ country }: Props) {
   const {
     name: { common, official },
     population,
@@ -48,4 +49,6 @@ export default function Card({ country }: Props) {
       </div>
     </div>
   );
-}
+});
+
+export default Card;
