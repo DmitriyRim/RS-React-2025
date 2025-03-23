@@ -1,4 +1,4 @@
-### before optimization
+### Before optimization
 
 #### Actions during profiling:
 
@@ -40,4 +40,43 @@
   ![alt text](./public/image-5.png)
 
 
-#### after optimization
+### After optimization
+
+#### Actions during profiling:
+
+- Filtering data by region.
+- Search for countries by name.
+- Sort countries by population.
+
+#### Parameters to Check:
+- Commit Duration: 2.6s
+- Render Duration: 1ms
+- Interactions: Filtering data by region.
+- Flame Graph: 
+
+  ![alt text](./public/image-7.png)
+- Ranked Chart: 
+
+  ![alt text](./public/image-8.png)
+
+***
+- Commit Duration: 1.8s
+- Render Duration: <0.1ms
+- Interactions: Search.
+- Flame Graph: 
+
+  ![alt text](./public/image-9.png)
+- Ranked Chart: 
+
+  ![alt text](./public/image-10.png)
+
+***
+- Commit Duration: 3.1s
+- Render Duration: 3ms
+- Interactions: Sort.
+- Flame Graph: 
+
+  ![alt text](./public/image-11.png)
+- Ranked Chart: 
+
+  ![alt text](./public/image-12.png)
