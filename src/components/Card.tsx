@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import { Country } from '../types/types';
 
 interface Props {
@@ -5,15 +6,27 @@ interface Props {
 }
 
 export default function Card({ country }: Props) {
-  const { name, population, region, flags } = country;
+  const {
+    name: { common, official },
+    population,
+    region,
+    flags,
+  } = country;
   const imgUrls = Object.values(flags);
+  const isVisit = (name: string): boolean => {
+    const ls = localStorage.getItem('countries');
+    const countries: string[] = ls && JSON.parse(ls);
+    return countries.includes(name);
+  };
 
   return (
-    <div key={name.common} className="card">
-      <h4>
-        {name.common}
-        <span className="subtitle">{name.official}</span>
-      </h4>
+    <div key={common} className={`card ${isVisit(common) && 'visited'}`}>
+      <Link to={`/${common}`}>
+        <h4>
+          {common}
+          <span className="subtitle">{official}</span>
+        </h4>
+      </Link>
       <div className="card-description">
         <ul>
           <li>Population: {population}</li>
@@ -24,8 +37,8 @@ export default function Card({ country }: Props) {
             <img
               className="card-img"
               src={imgUrls[0]}
-              alt={name.common}
-              key={name.common}
+              alt={common}
+              key={common}
             />
           }
         </div>
