@@ -15,7 +15,10 @@ export default function Card({ country }: Props) {
   const imgUrls = Object.values(flags);
   const isVisit = (name: string): boolean => {
     const ls = localStorage.getItem('countries');
-    const countries: string[] = ls && JSON.parse(ls);
+    if (!ls) {
+      return false;
+    }
+    const countries: string[] = JSON.parse(ls);
     return countries.includes(name);
   };
 

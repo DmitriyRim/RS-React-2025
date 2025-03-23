@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import {
-  filterData,
-  getAllData,
-  getAllRegions,
-  searchData,
-  sortData,
-} from './utils/utils';
+import { getAllData, getAllRegions } from './utils/utils';
 import Card from './components/Card';
 import { Country } from './types/types';
 
@@ -17,6 +11,28 @@ function App() {
   const [currentRegion, setCurrentRegion] = useState<string>('all');
   const [search, setSearch] = useState<string>('');
   const [sort, setSort] = useState<string>('default');
+  const filterData = (data: Country[], currentRegion: string): Country[] => {
+    if (currentRegion !== 'all') {
+      return data.filter((data) => data.region === currentRegion);
+    }
+    return data;
+  };
+
+  const searchData = (data: Country[], search: string): Country[] => {
+    const regex = new RegExp(search, 'i');
+    return data.filter((country) => regex.test(country.name.common));
+  };
+
+  const sortData = (data: Country[], sortBy: string): Country[] => {
+    const newData = [...data];
+    if (sortBy === 'abs') {
+      return newData.sort((a, b) => a.population - b.population);
+    } else if (sortBy === 'xyz') {
+      return newData.sort((a, b) => b.population - a.population);
+    } else {
+      return newData;
+    }
+  };
 
   useEffect(() => {
     const getData = async () => {
